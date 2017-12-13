@@ -1,0 +1,19 @@
+body {
+    background: cyan; 
+}
+
+h1 {
+    color: firebrick;
+    text-align: center;
+    font-family: sans-serif;
+}
+
+div.content {
+    text-align: center;
+    color: midnightblue;
+}
+
+div.contact {
+    text-align: left;
+    color: black;
+}
