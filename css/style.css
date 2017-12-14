@@ -10,10 +10,12 @@ h1 {
 
 div.content {
     text-align: center;
+    font-family: monospace;
     color: midnightblue;
 }
 
 div.contact {
     text-align: left;
+    font-family: monospace;
     color: black;
 }
