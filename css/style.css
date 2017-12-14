@@ -1,5 +1,6 @@
 body {
-    background: cyan;
+    background: linear-gradient(cyan, lightblue, cyan);
+    height: 100%;
 }
 
 h1 {
@@ -17,6 +18,7 @@ div.content {
 
 div.contact {
     text-align: left;
+    font-family: monospace;
     margin-left: 10%;
 }
 
@@ -26,6 +28,7 @@ img {
 
 p.price {
     float: left;
+    margin-right: 2%;
     background: midnightblue;
     color: white;
     font-size: 15px;
