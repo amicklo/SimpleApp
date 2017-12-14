@@ -16,6 +16,11 @@
     "value" : 23
   },
   {
+    "category1": "red",
+	"category2": "delta",
+    "value" : 23
+  },
+  {
     "category1": "blue",
 	"category2": "alpha",
     "value" : 42
@@ -31,6 +36,11 @@
     "value" : 77
   },
   {
+    "category1": "blue",
+	"category2": "delta",
+    "value" : 23
+  },
+  {
     "category1": "yellow",
 	"category2": "alpha",
     "value" : 32
@@ -44,6 +54,31 @@
     "category1": "yellow",
 	"category2": "gamma",
     "value" : 85
+  },
+  {
+    "category1": "yellow",
+	"category2": "delta",
+    "value" : 23
+  },
+  {
+    "category1": "orange",
+	"category2": "alpha",
+    "value" : 32
+  },
+  {
+    "category1": "orange",
+	"category2": "beta",
+    "value" : 29
+  },
+  {
+    "category1": "orange",
+	"category2": "gamma",
+    "value" : 85
+  },
+  {
+    "category1": "orange",
+	"category2": "delta",
+    "value" : 23
   }
   ]
 }

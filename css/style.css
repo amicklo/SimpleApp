@@ -1,21 +1,36 @@
 body {
-    background: cyan; 
+    background: cyan;
 }
 
 h1 {
-    color: firebrick;
-    text-align: center;
     font-family: sans-serif;
+    text-align: center;
+    color: firebrick;
 }
 
 div.content {
-    text-align: center;
+    text-align: left;
     font-family: monospace;
-    color: midnightblue;
+    font-size: 20px;
+    margin-left: 10%;
 }
 
 div.contact {
     text-align: left;
-    font-family: monospace;
-    color: black;
+    margin-left: 10%;
+}
+
+img {
+    width: 70%;
+}
+
+p.price {
+    float: left;
+    background: midnightblue;
+    color: white;
+    font-size: 15px;
+    width: 75px;
+    height: 75px;
+    border-radius: 50px;
+    text-align: center;
 }

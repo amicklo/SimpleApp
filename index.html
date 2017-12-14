@@ -33,7 +33,7 @@
         <div class="content" ng-repeat="product in products">
             <p>{{ product.name }}</p>
             <img ng-src="{{ product.image }}"> 
-            <p>{{ product.price | currency }}</p>
+            <p class="price"><br/>{{ product.price | currency }}</p>
         </div>
         <div>
             Give us Feedback!<br><input type="text" name="feedback"><br>

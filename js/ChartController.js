@@ -94,7 +94,13 @@ app.controller('ChartController', ['$scope', function ($scope) {
             // trigger render
             draw(data, "data");
         });
-        //parse json
+        /*-------------------------------------------------------------
+         * Bar Chart
+         * Color and Letter values separated then charted by weight
+         *-------------------------------------------------------------
+         */
+
+        //parse json for bar charts
         d3.json("data/dataCat.json", function (error, data) {
             if (error) throw error;
             //extract data
@@ -150,13 +156,13 @@ app.controller('ChartController', ['$scope', function ($scope) {
             //initialize bar chart scales
             var w = 300;
             var h = 300;
-            
+
             //initialize pads
             var chartGap = 4;
             var textIndent = 18;
 
             var xScale = d3.scaleBand()
-                .domain(d3.range(alphaVals.length))
+                .domain(d3.range(colorVals.length))
                 .rangeRound([0, w])
                 .paddingInner(0.05);
             var yScale = d3.scaleLinear()
