@@ -60,116 +60,105 @@ app.controller('BarChartController', ['$scope', function ($scope) {
             for (i = 0; i < alphas.length; i++) {
                 alphaVals.push(alphas[i].value);
             }
+            data = colors.concat(alphas);
 
-            //initialize bar chart scales
-            var w = 300;
-            var h = 300;
+            var height = 300;
+            var width = 400;
 
-            //initialize pads
-            var chartGap = 4;
-            var textIndent = 18;
+            var margin = {
+                    top: 20,
+                    right: 20,
+                    bottom: 30,
+                    left: 60
+                },
+                width = 960 - margin.left - margin.right,
+                height = 500 - margin.top - margin.bottom;
 
-            var xScale = d3.scaleBand()
-                .domain(d3.range(colorVals.length))
-                .rangeRound([0, w])
-                .paddingInner(0.05);
-            var yScale = d3.scaleLinear()
-                .domain([0, d3.max([d3.max(colorVals), d3.max(alphaVals)])])
-                .range([0, h]);
+            // set the ranges
+            var y = d3.scaleBand()
+                .range([height, 0])
+                .padding(0.1);
 
-            //initialize bar chart svg elements
-            var bar1 = d3.select("body")
-                .append("svg")
-                .attr("float", "right")
-                .attr("width", w + chartGap)
-                .attr("height", h);
+            var x = d3.scaleLinear()
+                .range([0, width]);
 
-            var bar2 = d3.select("body")
-                .append("svg")
-                .attr("width", w)
-                .attr("height", h);
+            // append the svg object to the body of the page
+            // append a 'group' element to 'svg'
+            // moves the 'group' element to the top left margin
+            var svg = d3.select("body").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
 
-            //initalize bars
-            bar1.selectAll("rect")
+            /* format the data
+            data.forEach(function (d) {
+                d.value = +d.value;
+            });*/
+
+            // Scale the range of the data in the domains
+            x.domain([0, d3.max(colors.concat(alphas), function (d) {
+                return d.value;
+            })]);
+            y.domain(colors.map(function (d) {
+                return d.key;
+            }));
+
+            // append the Bars
+            svg.selectAll(".bar")
                 .data(colors)
-                .enter()
-                .append("rect")
-                .attr("x", function (d, i) {
-                    return xScale(i) + 15;
+                .enter().append("rect")
+                .attr("class", "bar")
+                .attr("width", function (d) {
+                    return x(d.value);
                 })
                 .attr("y", function (d) {
-                    return h - yScale(d.value);
+                    return y(d.key) + (y.bandwidth()/4);
                 })
-                .attr("width", xScale.bandwidth()/2)
-                .attr("height", function (d) {
-                    return yScale(d.value);
-                })
-                .attr("fill", function (d) {
-                    return d.key;
-                })
-                .append("title")
-                .text(function (d) {
-                    return d.key;
-                });
+                .attr("height", y.bandwidth() / 2);
 
-            bar2.selectAll("rect")
+            // append the x and y Axes
+            svg.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(x).tickSizeInner([-height]));
+
+            svg.append("g")
+                .call(d3.axisLeft(y));
+            
+            d3.select("body").append("h1").html("Alphabet");
+            
+            y.domain(alphas.map(function (d) {
+                return d.key;
+            }));
+            
+            var svg2 = d3.select("body").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
+            
+            // append the Bars
+            svg2.selectAll(".bar")
                 .data(alphas)
-                .enter()
-                .append("rect")
-                .attr("x", function (d, i) {
-                    return xScale(i) + 15;
+                .enter().append("rect")
+                .attr("class", "bar")
+                .attr("width", function (d) {
+                    return x(d.value);
                 })
                 .attr("y", function (d) {
-                    return h - yScale(d.value);
+                    return y(d.key) + (y.bandwidth()/4);
                 })
-                .attr("width", xScale.bandwidth()/2)
-                .attr("height", function (d) {
-                    return yScale(d.value);
-                })
-                .attr("fill", function (d) {
-                    return "rgb(0, 0, " + Math.round(d.value / 2) + ")";
-                })
-                .append("title")
-                .text(function (d) {
-                    return d.key;
-                });
+                .attr("height", y.bandwidth() / 2);
 
-            //append number labels
-            bar1.selectAll("text")
-                .data(colors)
-                .enter()
-                .append("text")
-                .text(function (d) {
-                    return d.value;
-                })
-                .attr("text-anchor", "middle")
-                .attr("x", function (d, i) {
-                    return xScale(i) + xScale.bandwidth() / 4 + 15;
-                })
-                .attr("y", function (d) {
-                    return h - yScale(d.value) + textIndent;
-                })
-                .attr("font-family", "sans-serif")
-                .attr("font-size", "12px")
-                .attr("fill", "black");
+            // append the x and y Axes
+            svg2.append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(x).tickSizeInner([-height]));
 
-            bar2.selectAll("text")
-                .data(alphas)
-                .enter()
-                .append("text")
-                .text(function (d) {
-                    return d.value;
-                })
-                .attr("text-anchor", "middle")
-                .attr("x", function (d, i) {
-                    return xScale(i) + xScale.bandwidth() / 4 + 15;
-                })
-                .attr("y", function (d) {
-                    return h - yScale(d.value) + textIndent;
-                })
-                .attr("font-family", "sans-serif")
-                .attr("font-size", "12px")
-                .attr("fill", "white");
+            svg2.append("g")
+                .call(d3.axisLeft(y));
 
         });
 
