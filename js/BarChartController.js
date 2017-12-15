@@ -33,14 +33,13 @@ app.controller('BarChartController', ['$scope', 'factory', function ($scope, fac
             var colors = factory.filter(colorDimension);
             var alphas = factory.filter(alphaDimension);
 
-            var height = 300;
-            var width = 400;
+            var chartPad = 25;
 
             var margin = {
                     top: 20,
                     right: 20,
                     bottom: 30,
-                    left: 60
+                    left: 75
                 },
                 width = 960 - margin.left - margin.right,
                 height = 500 - margin.top - margin.bottom;
@@ -63,31 +62,13 @@ app.controller('BarChartController', ['$scope', 'factory', function ($scope, fac
                 .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")");
 
-            /* format the data
-            data.forEach(function (d) {
-                d.value = +d.value;
-            });*/
-
             // Scale the range of the data in the domains
             x.domain([0, d3.max(colors.concat(alphas), function (d) {
-                return d.value;
+                return d.value + chartPad;
             })]);
             y.domain(colors.map(function (d) {
                 return d.key;
             }));
-
-            // append the Bars
-            svg.selectAll(".bar")
-                .data(colors)
-                .enter().append("rect")
-                .attr("class", "bar")
-                .attr("width", function (d) {
-                    return x(d.value);
-                })
-                .attr("y", function (d) {
-                    return y(d.key) + (y.bandwidth() / 4);
-                })
-                .attr("height", y.bandwidth() / 2);
 
             // append the x and y Axes
             svg.append("g")
@@ -95,7 +76,30 @@ app.controller('BarChartController', ['$scope', 'factory', function ($scope, fac
                 .call(d3.axisBottom(x).tickSizeInner([-height]));
 
             svg.append("g")
+                .style("font", "13px sans-serif")
                 .call(d3.axisLeft(y));
+
+            // append the Bars
+            svg.selectAll(".bar")
+                .data(colors)
+                .enter().append("rect")
+                .attr("class", "bar")
+                .attr("y", function (d) {
+                    return y(d.key) + (y.bandwidth() / 4);
+                })
+                .attr("height", y.bandwidth() / 2)
+                .append("title")
+                .text(function (d) {
+                    return d.value;
+                });
+
+            svg.selectAll(".bar")
+                .data(colors)
+                .transition()
+                .duration(1000)
+                .attr("width", function (d) {
+                    return x(d.value);
+                });
 
             d3.select("body").append("h1").html("Alphabet");
 
@@ -110,26 +114,36 @@ app.controller('BarChartController', ['$scope', 'factory', function ($scope, fac
                 .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")");
 
-            // append the Bars
-            svg2.selectAll(".bar")
-                .data(alphas)
-                .enter().append("rect")
-                .attr("class", "bar")
-                .attr("width", function (d) {
-                    return x(d.value);
-                })
-                .attr("y", function (d) {
-                    return y(d.key) + (y.bandwidth() / 4);
-                })
-                .attr("height", y.bandwidth() / 2);
-
             // append the x and y Axes
             svg2.append("g")
                 .attr("transform", "translate(0," + height + ")")
                 .call(d3.axisBottom(x).tickSizeInner([-height]));
 
             svg2.append("g")
+                .style("font", "13px sans-serif")
                 .call(d3.axisLeft(y));
+
+            // append the Bars
+            svg2.selectAll(".bar")
+                .data(alphas)
+                .enter().append("rect")
+                .attr("class", "bar")
+                .attr("y", function (d) {
+                    return y(d.key) + (y.bandwidth() / 4);
+                })
+                .attr("height", y.bandwidth() / 2)
+                .append("title")
+                .text(function (d) {
+                    return d.value;
+                });
+
+            svg2.selectAll(".bar")
+                .data(alphas)
+                .transition()
+                .duration(1000)
+                .attr("width", function (d) {
+                    return x(d.value);
+                });
 
         });
 

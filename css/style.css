@@ -1,12 +1,12 @@
 body {
-    background: linear-gradient(cyan, lightblue, cyan);
-    height: 100%;
+    background: linear-gradient(cyan, lavenderblush, cyan);
 }
 
 h1 {
     font-family: sans-serif;
     text-align: center;
-    color: firebrick;
+    color: Indigo;
+    font-weight: 600;
 }
 
 div.content {
@@ -19,11 +19,13 @@ div.content {
 div.contact {
     text-align: left;
     font-family: monospace;
+    font-size: 15px;
     margin-left: 10%;
 }
 
 img {
-    width: 70%;
+    width: 50%;
+    margin-left: 75px;
 }
 
 p.price {
@@ -38,6 +40,15 @@ p.price {
     text-align: center;
 }
 
-svg {
-    text-align: center;
+.bar {
+    fill: firebrick;
+
+}
+
+.bar:hover {
+    fill: indianred;
+    -moz-transition: all 0.33s;
+    -o-transition: all 0.33s;
+    -webkit-transition: all 0.33s;
+    transition: all 0.33s;
 }

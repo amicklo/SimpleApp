@@ -1,22 +1,7 @@
 app.controller('ChartController', ['$scope', function ($scope) {
     //styles the svg tabs at the top of the oage
-    $scope.initTabs = function () {
-        var svg = d3.select("body");
-
-        svg.selectAll("rect")
-            .attr("fill", "MidnightBlue")
-            .on("mouseover", function () {
-                d3.select(this)
-                    .transition()
-                    .attr("fill", "Blue");
-            })
-            .on("mouseout", function () {
-                d3.select(this)
-                    .transition()
-                    .attr("fill", "MidnightBlue");
-            });
-    };
-    //draws a line chart and two bar charts
+   
+    //draws a line chart
     $scope.initChart = function () {
         var margin = {
                 top: 20,

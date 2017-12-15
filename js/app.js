@@ -3,9 +3,9 @@ var app = angular.module("myApp", []);
 
 
 app.factory('factory', function () {
-    //initialize grouping
     return {
         filter: function (dimension) {
+            //initialize grouping
             var grouping = dimension.group();
 
             //initialize reduce functions

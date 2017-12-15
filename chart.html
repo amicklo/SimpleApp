@@ -4,6 +4,9 @@
 <head>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
     <script src='//alexmacy.github.io/crossfilter/crossfilter.v1.min.js'></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="d3/d3.js"></script>
     <!-- Modules -->
     <script src="js/app.js"></script>
@@ -27,21 +30,13 @@
     <!-- draw function and style source https://bl.ocks.org/basilesimon/29efb0e0a43dde81985c20d9a862e34e -->
 
     <div class="main" ng-controller="ChartController">
-        <svg width="1260" height="60" xmlns="http://www.w3.org/2000/svg">
-        <a href="index.html"><rect x="5" y="2" width="410" height="56" rx="10" ry="10" fill="MidnightBlue"/>
-        <text text-anchor="middle" x="205" y="38" font-family="sans-serif" font-size="20px" fill="white">
-            Products
-        </text></a>
-        <a href="contact.html"><rect x="425" y="2" width="410" height="56" rx="10" ry="10" fill="MidnightBlue"/>
-        <text text-anchor="middle" x="630" y="38" font-family="sans-serif" font-size="20px" fill="white">
-            Contact Us
-        </text></a>
-        <rect x="845" y="2" width="410" height="56" rx="10" ry="10" fill="MidnightBlue"/>
-        <text text-anchor="middle" x="1050" y="38" font-family="sans-serif" font-size="20px" fill="white">
-            Chart
-        </text>
-        </svg>
-        <h1 ng-init="initChart()" ng-init="initTabs()">
+        <div class="btn-group btn-group-justified">
+            <a href="index.html" class="btn btn-primary">Products</a>
+            <a href="contact.html" class="btn btn-primary">Contact Us</a>
+            <a href="chart.html" class="btn btn-primary">Line Chart</a>
+            <a href="bar.html" class="btn btn-primary">Bar Charts</a>
+        </div>
+        <h1 ng-init="initChart()">
             Chart
         </h1>
     </div>

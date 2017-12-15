@@ -24,21 +24,5 @@ app.controller('MainController', ['$scope', function ($scope) {
             image: 'image/mixer.jpg'
   	    }
     ]
-    $scope.initTabs = function () {
-        var svg = d3.select("body");
-
-        svg.selectAll("rect")
-            .attr("fill", "MidnightBlue")
-            .on("mouseover", function () {
-                d3.select(this)
-                    .transition()
-                    .attr("fill", "Blue");
-            })
-            .on("mouseout", function () {
-                d3.select(this)
-                    .transition()
-                    .attr("fill", "MidnightBlue");
-            });
-    };
 }]);
 
