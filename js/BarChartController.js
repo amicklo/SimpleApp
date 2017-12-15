@@ -1,10 +1,13 @@
-/*-------------------------------------------------------------
+/*-------------------------------------------------------------------
  * Bar Chart
  * Color and Letter values separated then charted by weight
- *-------------------------------------------------------------
+ * some chart logic taken from:
+ * https://bl.ocks.org/alandunning/7008d0332cc28a826b37b3cf6e7bd998
+ * https://bl.ocks.org/caravinden/eb0e5a2b38c8815919290fa838c6b63b
+ *-------------------------------------------------------------------
  */
 
-app.controller('BarChartController', ['$scope', function ($scope) {
+app.controller('BarChartController', ['$scope', 'factory', function ($scope, factory) {
 
     $scope.initChart = function () {
 
@@ -26,41 +29,9 @@ app.controller('BarChartController', ['$scope', function ($scope) {
                 return d.category2;
             });
 
-            //initialize groupings
-            var colorGrouping = colorDimension.group();
-            var alphaGrouping = alphaDimension.group();
-
-            //initialize reduce functions
-            function reduceAdd(p, v) {
-                return p + v.value;
-            }
-
-            function reduceRemove(p, v) {
-                return p - v.value;
-            }
-
-            function reduceInitial() {
-                return 0;
-            }
-
-            //reduce groupings
-            colorGrouping.reduce(reduceAdd, reduceRemove, reduceInitial);
-            alphaGrouping.reduce(reduceAdd, reduceRemove, reduceInitial);
-
             //extract arrays of grouped data
-            var colors = colorGrouping.all();
-            var alphas = alphaGrouping.all();
-
-            //put data into arrays
-            var colorVals = [];
-            for (var i = 0; i < colors.length; i++) {
-                colorVals.push(colors[i].value);
-            }
-            var alphaVals = [];
-            for (i = 0; i < alphas.length; i++) {
-                alphaVals.push(alphas[i].value);
-            }
-            data = colors.concat(alphas);
+            var colors = factory.filter(colorDimension);
+            var alphas = factory.filter(alphaDimension);
 
             var height = 300;
             var width = 400;
@@ -114,7 +85,7 @@ app.controller('BarChartController', ['$scope', function ($scope) {
                     return x(d.value);
                 })
                 .attr("y", function (d) {
-                    return y(d.key) + (y.bandwidth()/4);
+                    return y(d.key) + (y.bandwidth() / 4);
                 })
                 .attr("height", y.bandwidth() / 2);
 
@@ -125,20 +96,20 @@ app.controller('BarChartController', ['$scope', function ($scope) {
 
             svg.append("g")
                 .call(d3.axisLeft(y));
-            
+
             d3.select("body").append("h1").html("Alphabet");
-            
+
             y.domain(alphas.map(function (d) {
                 return d.key;
             }));
-            
+
             var svg2 = d3.select("body").append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
                 .append("g")
                 .attr("transform",
                     "translate(" + margin.left + "," + margin.top + ")");
-            
+
             // append the Bars
             svg2.selectAll(".bar")
                 .data(alphas)
@@ -148,7 +119,7 @@ app.controller('BarChartController', ['$scope', function ($scope) {
                     return x(d.value);
                 })
                 .attr("y", function (d) {
-                    return y(d.key) + (y.bandwidth()/4);
+                    return y(d.key) + (y.bandwidth() / 4);
                 })
                 .attr("height", y.bandwidth() / 2);
 
