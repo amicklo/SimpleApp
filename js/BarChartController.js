@@ -51,6 +51,8 @@ app.controller('BarChartController', ['$scope', 'factory', function ($scope, fac
 
             var x = d3.scaleLinear()
                 .range([0, width]);
+            
+            var heightMod = 3;
 
             // append the svg object to the body of the page
             // append a 'group' element to 'svg'
@@ -73,7 +75,7 @@ app.controller('BarChartController', ['$scope', 'factory', function ($scope, fac
             // append the x and y Axes
             svg.append("g")
                 .attr("transform", "translate(0," + height + ")")
-                .call(d3.axisBottom(x).tickSizeInner([-height]));
+                .call(d3.axisBottom(x).ticks(5).tickSizeInner([-height]));
 
             svg.append("g")
                 .style("font", "13px sans-serif")
@@ -85,9 +87,9 @@ app.controller('BarChartController', ['$scope', 'factory', function ($scope, fac
                 .enter().append("rect")
                 .attr("class", "bar")
                 .attr("y", function (d) {
-                    return y(d.key) + (y.bandwidth() / 4);
+                    return y(d.key) + (y.bandwidth() / heightMod);
                 })
-                .attr("height", y.bandwidth() / 2)
+                .attr("height", y.bandwidth() / heightMod)
                 .append("title")
                 .text(function (d) {
                     return d.value;
@@ -117,7 +119,7 @@ app.controller('BarChartController', ['$scope', 'factory', function ($scope, fac
             // append the x and y Axes
             svg2.append("g")
                 .attr("transform", "translate(0," + height + ")")
-                .call(d3.axisBottom(x).tickSizeInner([-height]));
+                .call(d3.axisBottom(x).ticks(5).tickSizeInner([-height]));
 
             svg2.append("g")
                 .style("font", "13px sans-serif")
@@ -129,9 +131,9 @@ app.controller('BarChartController', ['$scope', 'factory', function ($scope, fac
                 .enter().append("rect")
                 .attr("class", "bar")
                 .attr("y", function (d) {
-                    return y(d.key) + (y.bandwidth() / 4);
+                    return y(d.key) + (y.bandwidth() / heightMod);
                 })
-                .attr("height", y.bandwidth() / 2)
+                .attr("height", y.bandwidth() / heightMod)
                 .append("title")
                 .text(function (d) {
                     return d.value;
