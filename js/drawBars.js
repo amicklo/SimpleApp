@@ -58,39 +58,16 @@ app.directive('drawBars', ['factory', function (factory, factoryColor) {
         // append the svg object to the body of the page
         // append a 'group' element to 'svg'
         // moves the 'group' element to the top left margin
-        var svg = d3.select("body").append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform",
-                "translate(" + margin.left + "," + margin.top + ")");
 
-        // Scale the range of the data in the domains
-        x.domain([0, d3.max(colors.concat(alphas), function (d) {
-            return d.value + chartPad;
-        })]);
-        y.domain(colors.map(function (d) {
-            return d.key;
-        }));
+        var svg = factory.addChart(margin, width, height);
+        d3.select("body").append("h1").html("Alphabet");
+        var svg2 = factory.addChart(margin, width, height);
 
-        // append the x and y Axes
-        svg.append("g")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x).ticks(5).tickSizeInner([-height]));
+        svg = factory.draw(svg, colors, alphas, data, x, y, height, height, heightMod, chartPad);
+        svg2 = factory.draw(svg2, alphas, colors, data, x, y, height, height, heightMod, chartPad);
 
-        svg.append("g")
-            .style("font", "13px sans-serif")
-            .call(d3.axisLeft(y));
-
-        // append the Bars
         svg.selectAll(".bar")
             .data(colors)
-            .enter().append("rect")
-            .attr("class", "bar")
-            .attr("y", function (d) {
-                return y(d.key) + (y.bandwidth() / heightMod);
-            })
-            .attr("height", y.bandwidth() / heightMod)
             .on("click", function (d) {
                 var vals = [];
                 for (var i = 0; i < data.length; i++) {
@@ -98,7 +75,6 @@ app.directive('drawBars', ['factory', function (factory, factoryColor) {
                         vals.push(data[i].value);
                     }
                 }
-
                 svg.selectAll(".bar")
                     .data(colors)
                     .transition()
@@ -107,7 +83,6 @@ app.directive('drawBars', ['factory', function (factory, factoryColor) {
                     .attr("width", function (d) {
                         return x(d.value);
                     });
-
                 d3.select(this)
                     .transition()
                     .duration(1000)
@@ -115,7 +90,6 @@ app.directive('drawBars', ['factory', function (factory, factoryColor) {
                     .attr("width", function (d) {
                         return x(d.value);
                     });
-
                 svg2.selectAll(".bar")
                     .transition()
                     .duration(1000)
@@ -133,38 +107,9 @@ app.directive('drawBars', ['factory', function (factory, factoryColor) {
                 return x(d.value);
             });
 
-        d3.select("body").append("h1").html("Alphabet");
-
-        y.domain(alphas.map(function (d) {
-            return d.key;
-        }));
-
-        var svg2 = d3.select("body").append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform",
-                "translate(" + margin.left + "," + margin.top + ")");
-
-        // append the x and y Axes
-        svg2.append("g")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x).ticks(5).tickSizeInner([-height]));
-
-        svg2.append("g")
-            .style("font", "13px sans-serif")
-            .call(d3.axisLeft(y));
-
         // append the Bars
         svg2.selectAll(".bar")
             .data(alphas)
-            .enter().append("rect")
-            .attr("class", "bar")
-            .attr("y", function (d) {
-                return y(d.key) + (y.bandwidth() / heightMod);
-            })
-            .attr("height", y.bandwidth() / heightMod)
-            //focus on the bar when clicked, and filter the other chart based on the clicked bar
             .on("click", function (d) {
                 var vals = [];
                 for (var i = 0; i < data.length; i++) {
