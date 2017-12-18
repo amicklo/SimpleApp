@@ -41,14 +41,5 @@ p.price {
 }
 
 .bar {
-    fill: firebrick;
-
-}
-
-.bar:hover {
-    fill: indianred;
-    -moz-transition: all 0.33s;
-    -o-transition: all 0.33s;
-    -webkit-transition: all 0.33s;
-    transition: all 0.33s;
+    cursor: pointer;
 }

@@ -2,7 +2,6 @@ app.controller('MainController', ['$scope', function ($scope) {
     $scope.title = "Products";
     $scope.setTitleProducts = function () {
         $scope.title = "Products";
-
     };
     $scope.setTitleContact = function () {
         $scope.title = "Contact Us"
@@ -23,6 +22,6 @@ app.controller('MainController', ['$scope', function ($scope) {
             price: 229.99,
             image: 'image/mixer.jpg'
   	    }
-    ]
+    ];
 }]);
 

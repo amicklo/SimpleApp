@@ -79,9 +79,38 @@ app.directive('drawBars', ['factory', function (factory) {
                 return y(d.key) + (y.bandwidth() / heightMod);
             })
             .attr("height", y.bandwidth() / heightMod)
-            .append("title")
-            .text(function (d) {
-                return d.value;
+            .on("click", function (d) {
+                var vals = [];
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].category1 == d.key) {
+                        vals.push(data[i].value);
+                    }
+                }
+
+                svg.selectAll(".bar")
+                    .data(colors)
+                    .transition()
+                    .duration(1000)
+                    .attr("fill", "gray")
+                    .attr("width", function (d) {
+                        return x(d.value);
+                    });
+
+                d3.select(this)
+                    .transition()
+                    .duration(1000)
+                    .attr("fill", "black")
+                    .attr("width", function (d) {
+                        return x(d.value);
+                    });
+
+                svg2.selectAll(".bar")
+                    .transition()
+                    .duration(1000)
+                    .attr("width", function (d, i) {
+                        return x(vals[i]);
+                    })
+                    .attr("fill", "black");
             });
 
         svg.selectAll(".bar")
@@ -123,9 +152,47 @@ app.directive('drawBars', ['factory', function (factory) {
                 return y(d.key) + (y.bandwidth() / heightMod);
             })
             .attr("height", y.bandwidth() / heightMod)
-            .append("title")
-            .text(function (d) {
-                return d.value;
+            //focus on the bar when clicked, and filter the other chart based on the clicked bar
+            .on("click", function (d) {
+                var vals = [];
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].category2 == d.key) {
+                        vals.push(data[i].value);
+                    }
+                }
+                //fill the bars with gray
+                svg2.selectAll(".bar")
+                    .data(alphas)
+                    .transition()
+                    .duration(1000)
+                    .attr("fill", "gray")
+                    .attr("width", function (d) {
+                        return x(d.value);
+                    });
+                //fill the selected bar with black and make sure the bars are at their full values
+                d3.select(this)
+                    .transition()
+                    .duration(1000)
+                    .attr("fill", "black")
+                    .attr("width", function (d) {
+                        return x(d.value);
+                    });
+                //set the bars at their filtered sizes, fill them with black
+                svg.selectAll(".bar")
+                    .transition()
+                    .duration(1000)
+                    .attr("width", function (d, i) {
+                        if(i == 0){
+                            return x(vals[1]);
+                        }
+                        if(i == 1){
+                            return x(vals[0]);
+                        }
+                        if(i == 2){
+                            return x(vals[2]);
+                        }
+                    })
+                    .attr("fill", "black");
             });
 
         svg2.selectAll(".bar")

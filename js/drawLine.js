@@ -57,6 +57,8 @@ app.directive('drawLine', function (factory) {
         // Add the valueline path.
         line.append("path")
             .data([data])
+            .transition()
+            .duration(1000)
             .attr("class", "line")
             .attr("d", valueline);
         // Add the X Axis

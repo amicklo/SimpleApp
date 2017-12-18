@@ -1,6 +1,6 @@
 var app = angular.module("myApp", []);
 
-
+//factory for sorting values
 
 app.factory('factory', function () {
     return {

@@ -8,5 +8,5 @@
  */
 
 app.controller('BarChartController', ['$scope', 'factory', function ($scope, factory) {
-    //something will go here, but for now it's empty since I moved everything to the draw-bars directive
+    
 }]);
