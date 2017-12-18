@@ -1,4 +1,4 @@
-app.directive('drawBars', ['factory', function (factory) {
+app.directive('drawBars', ['factory', function (factory, factoryColor) {
 
     //parse json for bar charts
     d3.json("data/dataCat.json", function (error, data) {
@@ -8,6 +8,18 @@ app.directive('drawBars', ['factory', function (factory) {
 
         //initialize filter of data
         var cf = crossfilter(data);
+
+        function compare(a, b) {
+            if (a.category1 < b.category1) {
+                return -1;
+            }
+            if (a.category1 > b.category1) {
+                return 1;
+            }
+            return 0;
+        }
+
+        data.sort(compare);
 
         //initialize dimensions
         var colorDimension = cf.dimension(function (d) {
@@ -182,15 +194,7 @@ app.directive('drawBars', ['factory', function (factory) {
                     .transition()
                     .duration(1000)
                     .attr("width", function (d, i) {
-                        if(i == 0){
-                            return x(vals[1]);
-                        }
-                        if(i == 1){
-                            return x(vals[0]);
-                        }
-                        if(i == 2){
-                            return x(vals[2]);
-                        }
+                        return x(vals[i]);
                     })
                     .attr("fill", "black");
             });
