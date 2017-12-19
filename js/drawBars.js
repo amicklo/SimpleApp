@@ -1,4 +1,4 @@
-app.directive('drawBars', ['factory', function (factory, factoryColor) {
+app.directive('drawBars', ['factory', 'clickHandler', function (factory, clickHandler, factoryColor) {
 
     //parse json for bar charts
     d3.json("data/dataCat.json", function (error, data) {
@@ -8,31 +8,28 @@ app.directive('drawBars', ['factory', function (factory, factoryColor) {
 
         //initialize filter of data
         var cf = crossfilter(data);
+        var alphaDimension;
+        var colorDimension;
+        var colors;
+        var alphas;
+        var holder;
 
-        function compare(a, b) {
-            if (a.category1 < b.category1) {
-                return -1;
-            }
-            if (a.category1 > b.category1) {
-                return 1;
-            }
-            return 0;
+        function initFilters() {
+            cf = crossfilter(data);
+            colorDimension = cf.dimension(function (d) {
+                return d.category1;
+            });
+
+            alphaDimension = cf.dimension(function (d) {
+                return d.category2;
+            });
+
+            //extract arrays of grouped data
+            colors = factory.filter(colorDimension);
+            alphas = factory.filter(alphaDimension);
         }
 
-        data.sort(compare);
-
-        //initialize dimensions
-        var colorDimension = cf.dimension(function (d) {
-            return d.category1;
-        });
-
-        var alphaDimension = cf.dimension(function (d) {
-            return d.category2;
-        });
-
-        //extract arrays of grouped data
-        var colors = factory.filter(colorDimension);
-        var alphas = factory.filter(alphaDimension);
+        initFilters();
 
         var chartPad = 25;
 
@@ -55,6 +52,20 @@ app.directive('drawBars', ['factory', function (factory, factoryColor) {
 
         var heightMod = 3;
 
+        var vals = [];
+        
+        function compare(a, b) {
+            if (a.category1 < b.category1) {
+                return -1;
+            }
+            if (a.category1 > b.category1) {
+                return 1;
+            }
+            return 0;
+        }
+        
+        data.sort(compare);
+
         // append the svg object to the body of the page
         // append a 'group' element to 'svg'
         // moves the 'group' element to the top left margin
@@ -66,23 +77,13 @@ app.directive('drawBars', ['factory', function (factory, factoryColor) {
         svg = factory.draw(svg, colors, alphas, data, x, y, height, height, heightMod, chartPad);
         svg2 = factory.draw(svg2, alphas, colors, data, x, y, height, height, heightMod, chartPad);
 
+        //svg = clickHandler.clickFunc(colors, colorDimension, alphaDimension, x, svg, svg2);
+
         svg.selectAll(".bar")
             .data(colors)
             .on("click", function (d) {
-                var vals = [];
-                for (var i = 0; i < data.length; i++) {
-                    if (data[i].category1 == d.key) {
-                        vals.push(data[i].value);
-                    }
-                }
-                svg.selectAll(".bar")
-                    .data(colors)
-                    .transition()
-                    .duration(1000)
-                    .attr("fill", "gray")
-                    .attr("width", function (d) {
-                        return x(d.value);
-                    });
+                holder = d;
+                clickHandler.clickFunc(colors, colorDimension, alphaDimension, x, svg, svg2, holder);
                 d3.select(this)
                     .transition()
                     .duration(1000)
@@ -90,13 +91,7 @@ app.directive('drawBars', ['factory', function (factory, factoryColor) {
                     .attr("width", function (d) {
                         return x(d.value);
                     });
-                svg2.selectAll(".bar")
-                    .transition()
-                    .duration(1000)
-                    .attr("width", function (d, i) {
-                        return x(vals[i]);
-                    })
-                    .attr("fill", "black");
+                initFilters();
             });
 
         svg.selectAll(".bar")
@@ -107,26 +102,11 @@ app.directive('drawBars', ['factory', function (factory, factoryColor) {
                 return x(d.value);
             });
 
-        // append the Bars
         svg2.selectAll(".bar")
             .data(alphas)
             .on("click", function (d) {
-                var vals = [];
-                for (var i = 0; i < data.length; i++) {
-                    if (data[i].category2 == d.key) {
-                        vals.push(data[i].value);
-                    }
-                }
-                //fill the bars with gray
-                svg2.selectAll(".bar")
-                    .data(alphas)
-                    .transition()
-                    .duration(1000)
-                    .attr("fill", "gray")
-                    .attr("width", function (d) {
-                        return x(d.value);
-                    });
-                //fill the selected bar with black and make sure the bars are at their full values
+                holder = d;
+                clickHandler.clickFunc(alphas, alphaDimension, colorDimension, x, svg2, svg, holder);
                 d3.select(this)
                     .transition()
                     .duration(1000)
@@ -134,14 +114,7 @@ app.directive('drawBars', ['factory', function (factory, factoryColor) {
                     .attr("width", function (d) {
                         return x(d.value);
                     });
-                //set the bars at their filtered sizes, fill them with black
-                svg.selectAll(".bar")
-                    .transition()
-                    .duration(1000)
-                    .attr("width", function (d, i) {
-                        return x(vals[i]);
-                    })
-                    .attr("fill", "black");
+                initFilters();
             });
 
         svg2.selectAll(".bar")

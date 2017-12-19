@@ -70,6 +70,29 @@ app.factory('factory', function () {
 
             return svg;
         }
-        
     }
 });
+
+app.factory('clickHandler', ['factory', function (factory) {
+    return {
+        clickFunc: function (set, dimension1, dimension2, x, svg, svg2, dObj) {
+            dimension1 = dimension1.filter(dObj.key);
+            var vals = factory.filter(dimension2);
+            svg.selectAll(".bar")
+                .data(set)
+                .transition()
+                .duration(1000)
+                .attr("fill", "gray")
+                .attr("width", function (d) {
+                    return x(d.value);
+                });
+            svg2.selectAll(".bar")
+                .transition()
+                .duration(1000)
+                .attr("width", function (d, i) {
+                    return x(vals[i].value);
+                })
+                .attr("fill", "black");
+        }
+    }
+}]);
