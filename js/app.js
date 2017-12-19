@@ -24,6 +24,26 @@ app.factory('factory', function () {
             //reduce groupings
             return grouping.reduce(reduceAdd, reduceRemove, reduceInitial).all();
         },
+        memberFilter: function (dimension) {
+            //initialize grouping
+            var grouping = dimension.group();
+
+            //initialize reduce functions
+            function reduceAdd(p, v) {
+                return p + v.members;
+            }
+
+            function reduceRemove(p, v) {
+                return p - v.members;
+            }
+
+            function reduceInitial() {
+                return 0;
+            }
+
+            //reduce groupings
+            return grouping.reduce(reduceAdd, reduceRemove, reduceInitial).all();
+        },
         addChart: function (margin, width, height) {
             // create an svg object with size based on the parameters
             var svg = d3.select("body").append("svg")
@@ -59,7 +79,7 @@ app.factory('factory', function () {
                 .attr("y", function (d) {
                     return y(d.key) + (y.bandwidth() / heightMod);
                 })
-                .attr("height", y.bandwidth());
+                .attr("height", y.bandwidth() / heightMod);
 
             svg.selectAll(".bar")
                 .data(set1)
@@ -79,7 +99,7 @@ app.factory('clickHandler', ['factory', function (factory) {
         clickFunc: function (set, dimension1, dimension2, x, svg, svg2, dObj) {
             //filter by selected bar
             dimension1 = dimension1.filter(dObj.key);
-            var vals = factory.filter(dimension2); 
+            var vals = factory.filter(dimension2);
             //set deselected bars to be gray
             svg.selectAll(".bar")
                 .data(set)

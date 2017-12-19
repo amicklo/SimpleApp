@@ -70,8 +70,8 @@ app.directive('drawBars', ['factory', 'clickHandler', function (factory, clickHa
         var svg2 = factory.addChart(margin, width, height);
 
         // draw the charts
-        svg1 = factory.draw(svg1, colors, alphas, data, x, y, height, height, heightMod, chartPad); //color chart
-        svg2 = factory.draw(svg2, alphas, colors, data, x, y, height, height, heightMod, chartPad); //alpha chart
+        svg1 = factory.draw(svg1, colors, alphas, data, x, y, height, heightMod, chartPad); //color chart
+        svg2 = factory.draw(svg2, alphas, colors, data, x, y, height, heightMod, chartPad); //alpha chart
 
         // animate the initial sizes of the bars
         svg1.selectAll(".bar")

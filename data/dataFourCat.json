@@ -1,0 +1,76 @@
+{
+  "data" : [
+  {
+    "color": "red",
+	"letter": "alpha",
+	"shape" : "circle",
+	"country" : "USA",
+    "members" : 16,
+    "funds" : 9999
+  },
+  {
+    "color": "red",
+	"letter": "beta",
+	"shape" : "square",
+	"country" : "CANADA",
+    "members" : 62,
+    "funds" : 233
+  },
+  {
+    "color": "red",
+	"letter": "gamma",
+	"shape" : "triangle",
+	"country" : "CANADA",
+    "members" : 23,
+    "funds" : 2922
+  },
+  {
+    "color": "blue",
+	"letter": "alpha",
+	"shape" : "triangle",
+	"country" : "CANADA",
+    "members" : 42,
+    "funds" : 3113
+  },
+  {
+    "color": "blue",
+	"letter": "beta",
+	"shape" : "triangle",
+	"country" : "CANADA",
+    "members" : 95,
+    "funds" : 322
+  },
+  {
+    "color": "blue",
+	"letter": "gamma",
+	"shape" : "square",
+	"country" : "USA",
+    "members" : 77,
+    "funds" : 10000
+  },
+  {
+    "color": "yellow",
+	"letter": "alpha",
+	"shape" : "square",
+	"country" : "USA",
+    "members" : 32,
+    "funds" : 1222
+  },
+  {
+    "color": "yellow",
+	"letter": "beta",
+	"shape" : "square",
+	"country" : "CANADA",
+    "members" : 29,
+    "funds" : 4344
+  },
+  {
+    "color": "yellow",
+	"letter": "gamma",
+	"shape" : "circle",
+	"country" : "CANADA",
+    "members" : 85,
+    "funds" : 9000
+  }
+  ]
+}
