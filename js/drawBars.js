@@ -81,7 +81,7 @@ app.directive('drawBars', ['factory', 'clickHandler', function (factory, clickHa
             .attr("width", function (d) {
                 return x(d.value);
             });
-        
+
         svg2.selectAll(".bar")
             .data(alphas)
             .transition()
@@ -89,13 +89,15 @@ app.directive('drawBars', ['factory', 'clickHandler', function (factory, clickHa
             .attr("width", function (d) {
                 return x(d.value);
             });
-        
+
         //assign click functions
         svg1.selectAll(".bar")
             .data(colors)
             .on("click", function (d) {
                 holder = d;
+                // adjust the bars based on which bar is clicked
                 clickHandler.clickFunc(colors, colorDimension, alphaDimension, x, svg1, svg2, holder);
+                // set the bar that was clicked to be black
                 d3.select(this)
                     .transition()
                     .duration(1000)
