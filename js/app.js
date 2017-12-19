@@ -76,8 +76,10 @@ app.factory('factory', function () {
 app.factory('clickHandler', ['factory', function (factory) {
     return {
         clickFunc: function (set, dimension1, dimension2, x, svg, svg2, dObj) {
+            //filter by selected bar
             dimension1 = dimension1.filter(dObj.key);
-            var vals = factory.filter(dimension2);
+            var vals = factory.filter(dimension2); 
+            //set deselected bars to be gray
             svg.selectAll(".bar")
                 .data(set)
                 .transition()
@@ -86,6 +88,7 @@ app.factory('clickHandler', ['factory', function (factory) {
                 .attr("width", function (d) {
                     return x(d.value);
                 });
+            //set bars in other chart to their new sizes
             svg2.selectAll(".bar")
                 .transition()
                 .duration(1000)
