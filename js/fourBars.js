@@ -47,7 +47,8 @@ app.directive('fourBars', ['factory', 'clickHandler', function (factory, clickHa
                 var heightMod = 3;
 
                 /* ------- DRAW CHART BELOW THIS LINE ------- */
-                for (var j = 0; j < names.length; j++) {
+
+                for (j in names) {
                     initFilter(names[j]);
                     d3.select("body").append("h1").html(names[j]);
                     var svg = factory.addChart(margin, width, height);
@@ -55,7 +56,7 @@ app.directive('fourBars', ['factory', 'clickHandler', function (factory, clickHa
                         .attr("tag", j);
 
                     // draw the charts
-                    svg = factory.draw(svg, set, vals, data, x, y, height, heightMod, chartPad);
+                    svg = factory.drawWithTags(svg, set, vals, data, x, y, height, heightMod, chartPad, j);
 
                     /* ------ INTERACTIVITY BELOW THIS LINE ----- */
 
@@ -64,8 +65,8 @@ app.directive('fourBars', ['factory', 'clickHandler', function (factory, clickHa
                     svg.selectAll(".bar")
                         .data(set)
                         .on("click", function (d) {
-                            for (var i = 0; i < names.length; i++) {
-                                if (i != parseInt(svg.attr("tag"))) {
+                            for (i in names) {
+                                if (i != d3.select(this).attr("tag")) {
                                     svg2 = d3.select("." + names[i]);
                                     dimension2 = cf.dimension(function (d) {
                                         return d[names[i]];
@@ -74,13 +75,7 @@ app.directive('fourBars', ['factory', 'clickHandler', function (factory, clickHa
                                     clickHandler.altFunc(set, dimension, dimension2, x, svg, svg2, holder);
                                 }
                             }
-                            d3.select(this)
-                                .transition()
-                                .duration(1000)
-                                .attr("fill", "black")
-                                .attr("width", function (d) {
-                                    return x(d.value);
-                                });
+
                         });
                 }
             });
