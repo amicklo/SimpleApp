@@ -2,6 +2,7 @@
 <meta charset="utf-8">
 
 <head>
+    <!-- Dependencies -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0rc1/angular-route.min.js"></script>
     <script src='//alexmacy.github.io/crossfilter/crossfilter.v1.min.js'></script>
@@ -9,12 +10,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="d3/d3.js"></script>
-    <!-- Modules -->
-    <script src="js/app.js"></script>
 
-    <!-- Controllers -->
-    <script src="js/BarChartController.js"></script>
-
+    <!-- Style -->
     <link href="css/style.css" rel="stylesheet" />
     <title>More Charts!</title>
 </head>
@@ -23,8 +20,20 @@
     <!-- draw function and style source https://bl.ocks.org/basilesimon/29efb0e0a43dde81985c20d9a862e34e -->
     <tabs></tabs>
     <div class="main" ng-controller="BarChartController">
-        <four-bars></four-bars>
+        <four-bars param="color"></four-bars>
+        <!--
+        <four-bars param="letter"></four-bars>
+        <four-bars param="shape"></four-bars>
+        <four-bars param="country"></four-bars>
+            -->
     </div>
+
+    <!-- Modules -->
+    <script src="js/app.js"></script>
+
+    <!-- Controllers -->
+    <script src="js/BarChartController.js"></script>
+
     <!-- Directives -->
     <script src="js/tabs.js"></script>
     <script src="js/fourBars.js"></script>

@@ -7,6 +7,6 @@
  *-------------------------------------------------------------------
  */
 
-app.controller('BarChartController', ['$scope', 'factory', function ($scope, factory) {
-    
+app.controller('BarChartController', ['$scope', 'factory', function ($scope) {
+    $scope.names = ["color", "letter", "shape", "country"];
 }]);
