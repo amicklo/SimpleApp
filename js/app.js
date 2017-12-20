@@ -160,17 +160,21 @@ app.factory('clickHandler', ['factory', function (factory) {
             //filter by selected bar
             dimension1 = dimension1.filter(dObj.key);
             var vals = factory.filter(dimension2);
-            //set deselected bars to be gray
+            /*set deselected bars to be gray
             svg.selectAll(".bar")
                 .data(set)
                 .transition()
                 .duration(1000)
                 .attr("fill", "gray");
+            */
             //set bars in other chart to their new sizes
             svg2.selectAll(".bar")
                 .transition()
                 .duration(1000)
                 .attr("width", function (d, i) {
+                    if(isNaN(vals[i].value)){
+                        return 0;
+                    }
                     return x(vals[i].value);
                 })
                 .attr("fill", "black");

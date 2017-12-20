@@ -20,10 +20,10 @@ app.directive('fourBars', ['factory', 'clickHandler', function (factory, clickHa
                 var holder;
                 var vals = [];
                 // initializes the array of desired data from the filter
-                function initFilter(index) {
+                function initFilter(attrib) {
                     cf = crossfilter(data);
                     dimension = cf.dimension(function (d) {
-                        return d[index];
+                        return d[attrib];
                     });
 
                     //extract arrays of grouped data
@@ -50,35 +50,34 @@ app.directive('fourBars', ['factory', 'clickHandler', function (factory, clickHa
 
                 /* ------- DRAW CHART BELOW THIS LINE ------- */
 
-                //for (j in names) {
-                    initFilter($scope.param);
-                    d3.select("body").append("h1").html($scope.param);
-                    var svg = factory.addChart(margin, width, height);
-                    svg.attr('class', $scope.param);
+                initFilter($scope.param);
+                d3.select("body").append("h1").html($scope.param);
+                var svg = factory.addChart(margin, width, height);
+                svg.attr('class', $scope.param);
 
-                    // draw the charts
-                    svg = factory.drawWithTags(svg, set, vals, data, x, y, height, heightMod, chartPad, $scope.index);
+                // draw the charts
+                svg = factory.drawWithTags(svg, set, vals, data, x, y, height, heightMod, chartPad, $scope.index);
 
-                    /* ------ INTERACTIVITY BELOW THIS LINE ----- */
+                /* ------ INTERACTIVITY BELOW THIS LINE ----- */
 
-                    var svg2;
-                    var dimension2;
-                    svg.selectAll(".bar")
-                        .data(set)
-                        .on("click", function (d) {
-                            for (i in names) {
-                                if (i != d3.select(this).attr("tag")) {
-                                    svg2 = d3.select("." + names[i]);
-                                    dimension2 = cf.dimension(function (d) {
-                                        return d[names[i]];
-                                    });
-                                    holder = d;
-                                    clickHandler.altFunc(set, dimension, dimension2, x, svg, svg2, holder);
-                                }
+                var svg2;
+                var dimension2;
+                svg.selectAll(".bar")
+                    .data(set)
+                    .on("click", function (d) {
+                        for (i in names) {
+                            if (i != d3.select(this).attr("tag")) {
+                                svg2 = d3.select("." + names[i]);
+                                dimension2 = cf.dimension(function (p) {
+                                    return p[names[i]];
+                                });
+                                holder = d;
+                                clickHandler.altFunc(set, dimension, dimension2, x, svg, svg2, holder);
+                                initFilter($scope.param);
                             }
-
-                        });
-                //} -------
+                        }
+                    });
+                
             });
         }
     }
