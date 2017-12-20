@@ -3,7 +3,9 @@ app.directive('fourBars', ['factory', 'clickHandler', function (factory, clickHa
     return {
         restrict: 'E',
         scope: {
-            param: '@'
+            param: '@',
+            names: '=',
+            index: '='
         },
         controller: function ($scope) {
             d3.json('data/dataFourCat.json', function (error, data) {
@@ -48,15 +50,14 @@ app.directive('fourBars', ['factory', 'clickHandler', function (factory, clickHa
 
                 /* ------- DRAW CHART BELOW THIS LINE ------- */
 
-                for (j in names) {
-                    initFilter(names[j]);
-                    d3.select("body").append("h1").html(names[j]);
+                //for (j in names) {
+                    initFilter($scope.param);
+                    d3.select("body").append("h1").html($scope.param);
                     var svg = factory.addChart(margin, width, height);
-                    svg.attr('class', names[j])
-                        .attr("tag", j);
+                    svg.attr('class', $scope.param);
 
                     // draw the charts
-                    svg = factory.drawWithTags(svg, set, vals, data, x, y, height, heightMod, chartPad, j);
+                    svg = factory.drawWithTags(svg, set, vals, data, x, y, height, heightMod, chartPad, $scope.index);
 
                     /* ------ INTERACTIVITY BELOW THIS LINE ----- */
 
@@ -77,7 +78,7 @@ app.directive('fourBars', ['factory', 'clickHandler', function (factory, clickHa
                             }
 
                         });
-                }
+                //} -------
             });
         }
     }
