@@ -84,7 +84,7 @@ app.directive('fourBars', ['factory', 'clickHandler', function (factory, clickHa
                                 });
                                 holder = d;
                                 clickHandler.altFunc(set, dimension, dimension2, x, svg, svg2, holder);
-                                initFilter($scope.param);
+                                //initFilter($scope.param);
                             }
                         }
 
