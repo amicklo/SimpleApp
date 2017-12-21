@@ -23,9 +23,11 @@ app.factory('clickHandler', ['factory', function (factory) {
                     return x(d.value);
                 });
         },
-        altFunc: function (set, dimension1, dimension2, x, svg, svg2, dObj) {
+        altFunc: function (set, dimension1, dimension2, x, svg, svg2, dObjs) {
             //filter by selected bar
-            dimension1 = dimension1.filter(dObj.key);
+            for (i in dObjs) {
+                dimension1 = dimension1.filter(dObjs[i].key);
+            }
             var vals = factory.memberFilter(dimension2);
             //set deselected bars to be gray
             svg.selectAll(".bar")
@@ -33,6 +35,7 @@ app.factory('clickHandler', ['factory', function (factory) {
                 .transition()
                 .duration(1000)
                 .attr("fill", "gray")
+                .attr("stroke", "none")
                 .attr("width", function (d) {
                     return x(d.value);
                 });
@@ -41,6 +44,7 @@ app.factory('clickHandler', ['factory', function (factory) {
             svg2.selectAll(".bar")
                 .transition()
                 .duration(1000)
+                .attr("stroke", "none")
                 .attr("width", function (d, i) {
                     if (isNaN(vals[i].value)) {
                         return 0;

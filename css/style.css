@@ -43,4 +43,5 @@ p.price {
 
 .bar {
     cursor: pointer;
+    stroke-width: 3px;
 }
