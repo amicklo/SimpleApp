@@ -91,18 +91,18 @@ app.factory('factory', function () {
 
             return svg;
         },
-        drawWithTags: function (svg, set1, set2, data, x, y, height, heightMod, chartPad, tag) {
-            x.domain([0, d3.max(set1.concat(set2), function (d) {
+        drawWithTags: function (svg, currSet, set1, set2, set3, set4, data, x, y, height, heightMod, chartPad, tag) {
+            x.domain([0, d3.max(set1.concat(set2).concat(set3).concat(set4), function (d) {
                 return d.value + chartPad;
             })]);
-            y.domain(set1.map(function (d) {
+            y.domain(currSet.map(function (d) {
                 return d.key;
             }));
 
             // append the x and y Axes
             svg.append("g")
                 .attr("transform", "translate(0," + height + ")")
-                .call(d3.axisBottom(x).ticks(5).tickSizeInner([-height]));
+                .call(d3.axisBottom(x).ticks(7).tickSizeInner([-height]));
 
             svg.append("g")
                 .style("font", "13px sans-serif")
@@ -110,7 +110,7 @@ app.factory('factory', function () {
 
             // append the Bars
             svg.selectAll(".bar")
-                .data(set1)
+                .data(currSet)
                 .enter().append("rect")
                 .attr("class", "bar")
                 .attr("tag", tag)
@@ -120,7 +120,7 @@ app.factory('factory', function () {
                 .attr("height", y.bandwidth() / heightMod);
 
             svg.selectAll(".bar")
-                .data(set1)
+                .data(currSet)
                 .transition()
                 .duration(1000)
                 .attr("width", function (d) {
@@ -138,6 +138,15 @@ app.factory('clickHandler', ['factory', function (factory) {
             //filter by selected bar
             dimension1 = dimension1.filter(dObj.key);
             var vals = factory.filter(dimension2);
+
+            //set bars in other chart to their new sizes
+            svg2.selectAll(".bar")
+                .transition()
+                .duration(1000)
+                .attr("width", function (d, i) {
+                    return x(vals[i].value);
+                })
+                .attr("fill", "black");
             //set deselected bars to be gray
             svg.selectAll(".bar")
                 .data(set)
@@ -147,32 +156,27 @@ app.factory('clickHandler', ['factory', function (factory) {
                 .attr("width", function (d) {
                     return x(d.value);
                 });
-            //set bars in other chart to their new sizes
-            svg2.selectAll(".bar")
-                .transition()
-                .duration(1000)
-                .attr("width", function (d, i) {
-                    return x(vals[i].value);
-                })
-                .attr("fill", "black");
         },
         altFunc: function (set, dimension1, dimension2, x, svg, svg2, dObj) {
             //filter by selected bar
             dimension1 = dimension1.filter(dObj.key);
-            var vals = factory.filter(dimension2);
-            /*set deselected bars to be gray
+            var vals = factory.memberFilter(dimension2);
+            //set deselected bars to be gray
             svg.selectAll(".bar")
                 .data(set)
                 .transition()
                 .duration(1000)
-                .attr("fill", "gray");
-            */
+                .attr("fill", "gray")
+                .attr("width", function (d) {
+                    return x(d.value);
+                });
+            
             //set bars in other chart to their new sizes
             svg2.selectAll(".bar")
                 .transition()
                 .duration(1000)
                 .attr("width", function (d, i) {
-                    if(isNaN(vals[i].value)){
+                    if (isNaN(vals[i].value)) {
                         return 0;
                     }
                     return x(vals[i].value);

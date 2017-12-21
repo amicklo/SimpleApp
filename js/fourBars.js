@@ -11,14 +11,20 @@ app.directive('fourBars', ['factory', 'clickHandler', function (factory, clickHa
             d3.json('data/dataFourCat.json', function (error, data) {
                 if (error) throw error;
                 //extract data
-                var names = ["color", "letter", "shape", "country"];
                 data = data.data;
                 //initialize variables
+                var names = ["color","letter","shape","country"];
                 var cf = crossfilter(data);
                 var dimension;
                 var set;
                 var holder;
                 var vals = [];
+                //sets for determining chart scaling in factory
+                var colorSet;
+                var letterSet;
+                var shapeSet;
+                var countrySet;
+                
                 // initializes the array of desired data from the filter
                 function initFilter(attrib) {
                     cf = crossfilter(data);
@@ -27,8 +33,13 @@ app.directive('fourBars', ['factory', 'clickHandler', function (factory, clickHa
                     });
 
                     //extract arrays of grouped data
-                    set = factory.memberFilter(dimension);
+                    return set = factory.memberFilter(dimension);
                 }
+                
+                colorSet = initFilter("color");
+                letterSet = initFilter("letter");
+                shapeSet = initFilter("shape");
+                countrySet = initFilter("country");
 
                 //initialize chart style variables
                 var chartPad = 25;
@@ -56,7 +67,7 @@ app.directive('fourBars', ['factory', 'clickHandler', function (factory, clickHa
                 svg.attr('class', $scope.param);
 
                 // draw the charts
-                svg = factory.drawWithTags(svg, set, vals, data, x, y, height, heightMod, chartPad, $scope.index);
+                svg = factory.drawWithTags(svg, set, colorSet, letterSet, shapeSet, countrySet, data, x, y, height, heightMod, chartPad, $scope.index);
 
                 /* ------ INTERACTIVITY BELOW THIS LINE ----- */
 
@@ -76,8 +87,16 @@ app.directive('fourBars', ['factory', 'clickHandler', function (factory, clickHa
                                 initFilter($scope.param);
                             }
                         }
+
+                        d3.select(this)
+                            .transition()
+                            .duration(1000)
+                            .attr("fill", "black")
+                            .attr("width", function (d) {
+                                return x(d.value);
+                            });
                     });
-                
+
             });
         }
     }
