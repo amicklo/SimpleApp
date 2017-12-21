@@ -25,7 +25,7 @@ app.factory('clickHandler', ['factory', function (factory) {
         },
         altFunc: function (set, dimension1, dimension2, x, svg, svg2, dObjs) {
             //filter by selected bar
-            for (i in dObjs) {
+            for (var i in dObjs) {
                 dimension1 = dimension1.filter(dObjs[i].key);
             }
             var vals = factory.memberFilter(dimension2);
