@@ -23,20 +23,21 @@ app.factory('clickHandler', ['factory', function (factory) {
                     return x(d.value);
                 });
         },
-        altFunc: function (set, colorDimension, letterDimension, shapeDimension, countryDimension, x, svg, svg2, dObj, dims) {
+        altFunc: function (set, colorDimension, letterDimension, shapeDimension, countryDimension, x, svg, svg2, dObj) {
             //filter by selected bar
-            for (var i in dims) {
-                if (dims[i] == "color") {
-                    colorDimension = colorDimension.filter(dObj.key);
+
+            for (var i in dObj) {
+                if (dObj[i].type == "color") {
+                    colorDimension = colorDimension.filter(dObj[i].key.key);
                 }
-                if (dims[i] == "letter") {
-                    letterDimension = letterDimension.filter(dObj.key);
+                if (dObj[i].type == "letter") {
+                    letterDimension = letterDimension.filter(dObj[i].key.key);
                 }
-                if (dims[i] == "shape") {
-                    shapeDimension = shapeDimension.filter(dObj.key);
+                if (dObj[i].type == "shape") {
+                    shapeDimension = shapeDimension.filter(dObj[i].key.key);
                 }
-                if (dims[i] == "country") {
-                    countryDimension = countryDimension.filter(dObj.key);
+                if (dObj[i].type == "country") {
+                    countryDimension = countryDimension.filter(dObj[i].key.key);
                 }
             }
             var vals;
@@ -59,7 +60,7 @@ app.factory('clickHandler', ['factory', function (factory) {
                 .transition()
                 .duration(1000)
                 .attr("fill", "gray")
-                .attr("stroke", "none")
+                //.attr("stroke", "none")
                 .attr("width", function (d) {
                     return x(d.value);
                 });
@@ -68,11 +69,12 @@ app.factory('clickHandler', ['factory', function (factory) {
             svg2.selectAll(".bar")
                 .transition()
                 .duration(1000)
-                .attr("stroke", "none")
+                //.attr("stroke", "none")
                 .attr("width", function (d, i) {
                     return x(vals[i].value);
                 })
                 .attr("fill", "black");
+
         }
     }
 }]);

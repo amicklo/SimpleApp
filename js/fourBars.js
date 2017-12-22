@@ -11,7 +11,7 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
             d3.json('data/dataFourCat.json', function (error, data) {
                 if (error) throw error;
                 //extract data
-                if($rootScope.dims == null){
+                if ($rootScope.dims == null) {
                     $rootScope.dims = [];
                 }
                 data = data.data;
@@ -102,24 +102,31 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                 svg.selectAll(".bar")
                     .data(set)
                     .on("click", function (d) {
-                        holder = d;
-                        $rootScope.dims.push(svg.attr("class"));
-                        for (i in names) {
-                            if (i != d3.select(this).attr("tag")) {
-                                svg2 = d3.select("." + names[i]);
-                                clickHandler.altFunc(set, colorDimension, letterDimension, shapeDimension, countryDimension, x, svg, svg2, holder, $rootScope.dims);
-                                //initFilter($scope.param);
+                        holder = {
+                            "type": svg.attr("class"),
+                            "key": d
+                        };
+                        $rootScope.dims.push(holder);
+                        if ($rootScope.dims.length <= 4) {
+                            for (var i in names) {
+                                if (i != d3.select(this).attr("tag")) {
+                                    svg2 = d3.select("." + names[i]);
+                                    clickHandler.altFunc(set, colorDimension, letterDimension, shapeDimension, countryDimension, x, svg, svg2, $rootScope.dims);
+                                    //initFilter($scope.param);
+                                }
                             }
-                        }
 
-                        d3.select(this)
-                            .transition()
-                            .duration(1000)
-                            .attr("fill", "black")
-                            .attr("stroke", "yellow")
-                            .attr("width", function (d) {
-                                return x(d.value);
-                            });
+                            d3.select(this)
+                                .transition()
+                                .duration(1000)
+                                .attr("fill", "black")
+                                .attr("stroke", "yellow")
+                                .attr("width", function (d) {
+                                    return x(d.value);
+                                });
+                        } else {
+                            alert("can't do more than four values");
+                        }
                     });
 
             });
