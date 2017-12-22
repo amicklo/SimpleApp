@@ -23,12 +23,36 @@ app.factory('clickHandler', ['factory', function (factory) {
                     return x(d.value);
                 });
         },
-        altFunc: function (set, dimension1, dimension2, x, svg, svg2, dObjs) {
+        altFunc: function (set, colorDimension, letterDimension, shapeDimension, countryDimension, x, svg, svg2, dObj, dims) {
             //filter by selected bar
-            for (var i in dObjs) {
-                dimension1 = dimension1.filter(dObjs[i].key);
+            for (var i in dims) {
+                if (dims[i] == "color") {
+                    colorDimension = colorDimension.filter(dObj.key);
+                }
+                if (dims[i] == "letter") {
+                    letterDimension = letterDimension.filter(dObj.key);
+                }
+                if (dims[i] == "shape") {
+                    shapeDimension = shapeDimension.filter(dObj.key);
+                }
+                if (dims[i] == "country") {
+                    countryDimension = countryDimension.filter(dObj.key);
+                }
             }
-            var vals = factory.memberFilter(dimension2);
+            var vals;
+            if (svg2.attr("class") == "color") {
+                vals = factory.memberFilter(colorDimension);
+            }
+            if (svg2.attr("class") == "letter") {
+                vals = factory.memberFilter(letterDimension);
+            }
+            if (svg2.attr("class") == "shape") {
+                vals = factory.memberFilter(shapeDimension);
+            }
+            if (svg2.attr("class") == "country") {
+                vals = factory.memberFilter(countryDimension);
+            }
+
             //set deselected bars to be gray
             svg.selectAll(".bar")
                 .data(set)
@@ -46,9 +70,6 @@ app.factory('clickHandler', ['factory', function (factory) {
                 .duration(1000)
                 .attr("stroke", "none")
                 .attr("width", function (d, i) {
-                    if (isNaN(vals[i].value)) {
-                        return 0;
-                    }
                     return x(vals[i].value);
                 })
                 .attr("fill", "black");

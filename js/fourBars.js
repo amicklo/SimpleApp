@@ -1,50 +1,72 @@
-app.directive('fourBars', ['factory', 'clickHandler', function (factory, clickHandler, factoryColor) {
+app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (factory, clickHandler, $rootScope, $scope) {
 
     return {
         restrict: 'E',
         scope: {
             param: '@',
             names: '=',
-            index: '=',
-            dimensions: '='
+            index: '='
         },
-        controller: function ($scope) {
+        controller: function ($rootScope, $scope) {
             d3.json('data/dataFourCat.json', function (error, data) {
                 if (error) throw error;
-
-                if ($scope.dimensions == null) {
-                    $scope.dimensions = [];
-                }
                 //extract data
+                if($rootScope.dims == null){
+                    $rootScope.dims = [];
+                }
                 data = data.data;
                 //initialize variables
                 var names = ["color", "letter", "shape", "country"];
                 var cf = crossfilter(data);
-                var dimension;
+                var colorDimension;
+                var letterDimension;
+                var shapeDimension;
+                var countryDimension;
                 var set;
                 var holder;
-                var vals = [];
                 //sets for determining chart scaling in factory
                 var colorSet;
                 var letterSet;
                 var shapeSet;
                 var countrySet;
 
-                // initializes the array of desired data from the filter
-                function initFilter(attrib) {
+                // resets the dimensions
+                function initFilter() {
                     cf = crossfilter(data);
-                    dimension = cf.dimension(function (d) {
-                        return d[attrib];
+                    colorDimension = cf.dimension(function (d) {
+                        return d[names[0]];
                     });
 
-                    //extract arrays of grouped data
-                    return set = factory.memberFilter(dimension);
-                }
+                    letterDimension = cf.dimension(function (d) {
+                        return d[names[1]];
+                    });
 
-                colorSet = initFilter("color");
-                letterSet = initFilter("letter");
-                shapeSet = initFilter("shape");
-                countrySet = initFilter("country");
+                    shapeDimension = cf.dimension(function (d) {
+                        return d[names[2]];
+                    });
+
+                    countryDimension = cf.dimension(function (d) {
+                        return d[names[3]];
+                    });
+                }
+                initFilter();
+                colorSet = factory.memberFilter(colorDimension);
+                letterSet = factory.memberFilter(letterDimension);
+                shapeSet = factory.memberFilter(shapeDimension);
+                countrySet = factory.memberFilter(countryDimension);
+
+                if ($scope.param == names[0]) {
+                    set = colorSet;
+                }
+                if ($scope.param == names[1]) {
+                    set = letterSet;
+                }
+                if ($scope.param == names[2]) {
+                    set = shapeSet;
+                }
+                if ($scope.param == names[3]) {
+                    set = countrySet;
+                }
 
                 //initialize chart style variables
                 var chartPad = 25;
@@ -66,7 +88,6 @@ app.directive('fourBars', ['factory', 'clickHandler', function (factory, clickHa
 
                 /* ------- DRAW CHART BELOW THIS LINE ------- */
 
-                initFilter($scope.param);
                 d3.select("body").append("h1").html($scope.param);
                 var svg = factory.addChart(margin, width, height);
                 svg.attr('class', $scope.param);
@@ -81,14 +102,12 @@ app.directive('fourBars', ['factory', 'clickHandler', function (factory, clickHa
                 svg.selectAll(".bar")
                     .data(set)
                     .on("click", function (d) {
-                        $scope.dimensions.push(d);
+                        holder = d;
+                        $rootScope.dims.push(svg.attr("class"));
                         for (i in names) {
                             if (i != d3.select(this).attr("tag")) {
                                 svg2 = d3.select("." + names[i]);
-                                dimension2 = cf.dimension(function (p) {
-                                    return p[names[i]];
-                                });
-                                clickHandler.altFunc(set, dimension, dimension2, x, svg, svg2, $scope.dimensions);
+                                clickHandler.altFunc(set, colorDimension, letterDimension, shapeDimension, countryDimension, x, svg, svg2, holder, $rootScope.dims);
                                 //initFilter($scope.param);
                             }
                         }
