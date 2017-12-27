@@ -7,7 +7,7 @@
  *-------------------------------------------------------------------
  */
 
-app.controller('BarChartController', ['$rootScope', '$scope', 'factory', function ($scope, $rootScope) {
+app.controller('BarChartController', ['$rootScope', '$scope', 'factory', function ($scope, $rootScope, factory) {
     $scope.names = ["color", "letter", "shape", "country"];
     $rootScope.dims = [];
 }]);

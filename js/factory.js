@@ -87,8 +87,12 @@ app.factory('factory', function () {
 
             return svg;
         },
-        drawWithTags: function (svg, currSet, set1, set2, set3, set4, data, x, y, height, heightMod, chartPad, tag) {
-            x.domain([0, d3.max(set1.concat(set2).concat(set3).concat(set4), function (d) {
+        drawWithTags: function (svg, currSet, sets, data, x, y, height, heightMod, chartPad, tag) {
+            var allSets = sets[0];
+            for(var i in sets){
+                allSets.concat(sets[i]);
+            }
+            x.domain([0, d3.max(allSets, function (d) {
                 return d.value + chartPad;
             })]);
             y.domain(currSet.map(function (d) {
@@ -126,7 +130,7 @@ app.factory('factory', function () {
             return svg;
         },
         /*
-         * This will pull the categories of data out of an object in the data array
+         * This will pull the categories of data out of the first object in the data array
          */
         extractNames: function (data) {
             var val;

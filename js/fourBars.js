@@ -18,56 +18,23 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                 //initialize variables
                 var names = factory.extractNames(data); //["color", "letter", "shape", "country"]
                 var cf = crossfilter(data);
-                var colorDimension;
-                var letterDimension;
-                var shapeDimension;
-                var countryDimension;
-                var set;
                 var holder;
-                //sets for determining chart scaling in factory
-                var colorSet;
-                var letterSet;
-                var shapeSet;
-                var countrySet;
+                var dimensions = [];
+                var sets = [];
 
                 // resets the dimensions
                 function initFilter() {
                     cf = crossfilter(data);
-                    colorDimension = cf.dimension(function (d) {
-                        return d[names[0]];
-                    });
-
-                    letterDimension = cf.dimension(function (d) {
-                        return d[names[1]];
-                    });
-
-                    shapeDimension = cf.dimension(function (d) {
-                        return d[names[2]];
-                    });
-
-                    countryDimension = cf.dimension(function (d) {
-                        return d[names[3]];
-                    });
+                    for (var i in names) {
+                        dimensions.push(cf.dimension(function (d) {
+                            return d[names[i]];
+                        }));
+                    }
                 }
                 initFilter();
-                colorSet = factory.memberFilter(colorDimension);
-                letterSet = factory.memberFilter(letterDimension);
-                shapeSet = factory.memberFilter(shapeDimension);
-                countrySet = factory.memberFilter(countryDimension);
-
-                if ($scope.param == names[0]) {
-                    set = colorSet;
+                for (var i in dimensions) {
+                    sets.push(factory.memberFilter(dimensions[i]));
                 }
-                if ($scope.param == names[1]) {
-                    set = letterSet;
-                }
-                if ($scope.param == names[2]) {
-                    set = shapeSet;
-                }
-                if ($scope.param == names[3]) {
-                    set = countrySet;
-                }
-
                 //initialize chart style variables
                 var chartPad = 25;
                 var margin = {
@@ -93,26 +60,27 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                 svg.attr('class', $scope.param);
 
                 // draw the charts
-                svg = factory.drawWithTags(svg, set, colorSet, letterSet, shapeSet, countrySet, data, x, y, height, heightMod, chartPad, $scope.index);
+                svg = factory.drawWithTags(svg, sets[$scope.index], sets, data, x, y, height, heightMod, chartPad, $scope.index);
 
                 /* ------ INTERACTIVITY BELOW THIS LINE ----- */
 
                 var svg2;
                 var dimension2;
                 svg.selectAll(".bar")
-                    .data(set)
+                    .data(sets[$scope.index])
                     .on("click", function (d) {
                         holder = {
                             "type": svg.attr("class"),
                             "key": d
                         };
+                    
                         $rootScope.dims.push(holder);
+                    
                         if ($rootScope.dims.length <= 4) {
                             for (var i in names) {
                                 if (i != d3.select(this).attr("tag")) {
                                     svg2 = d3.select("." + names[i]);
-                                    clickHandler.altFunc(set, colorDimension, letterDimension, shapeDimension, countryDimension, x, svg, svg2, $rootScope.dims);
-                                    //initFilter($scope.param);
+                                    clickHandler.altFunc(sets[$scope.index], names, dimensions, x, svg, svg2, $rootScope.dims);
                                 }
                             }
 
@@ -124,11 +92,11 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                                 .attr("width", function (d) {
                                     return x(d.value);
                                 });
+                            
                         } else {
                             alert("can't do more than four values");
                         }
                     });
-
             });
         }
     }

@@ -23,37 +23,21 @@ app.factory('clickHandler', ['factory', function (factory) {
                     return x(d.value);
                 });
         },
-        altFunc: function (set, colorDimension, letterDimension, shapeDimension, countryDimension, x, svg, svg2, dObj) {
+        altFunc: function (set, names, dimensions, x, svg, svg2, dObj) {
             //filter by selected bar
-
             for (var i in dObj) {
-                if (dObj[i].type == "color") {
-                    colorDimension = colorDimension.filter(dObj[i].key.key);
-                }
-                if (dObj[i].type == "letter") {
-                    letterDimension = letterDimension.filter(dObj[i].key.key);
-                }
-                if (dObj[i].type == "shape") {
-                    shapeDimension = shapeDimension.filter(dObj[i].key.key);
-                }
-                if (dObj[i].type == "country") {
-                    countryDimension = countryDimension.filter(dObj[i].key.key);
+                for (var j in names){
+                    if (dObj[i].type == names[j]){
+                        dimensions[j] = dimensions[j].filter(dObj[i].key.key);
+                    }
                 }
             }
             var vals;
-            if (svg2.attr("class") == "color") {
-                vals = factory.memberFilter(colorDimension);
+            for (var i in names){
+                if(svg2.attr("class") == names[i]){
+                    vals = factory.memberFilter(dimensions[i]);
+                }
             }
-            if (svg2.attr("class") == "letter") {
-                vals = factory.memberFilter(letterDimension);
-            }
-            if (svg2.attr("class") == "shape") {
-                vals = factory.memberFilter(shapeDimension);
-            }
-            if (svg2.attr("class") == "country") {
-                vals = factory.memberFilter(countryDimension);
-            }
-
             //set deselected bars to be gray
             svg.selectAll(".bar")
                 .data(set)
@@ -74,7 +58,6 @@ app.factory('clickHandler', ['factory', function (factory) {
                     return x(vals[i].value);
                 })
                 .attr("fill", "black");
-
         }
     }
 }]);

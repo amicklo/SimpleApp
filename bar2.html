@@ -22,12 +22,6 @@
         <tabs></tabs>
     </div>
     <div class="main" ng-controller="BarChartController">
-        <!--
-        <four-bars param="color"></four-bars>
-        <four-bars param="letter"></four-bars>
-        <four-bars param="shape"></four-bars>
-        <four-bars param="country"></four-bars>
-            -->
         <div ng-repeat="name in names">
             <four-bars param="{{ name }}" index="$index"></four-bars>
         </div>
