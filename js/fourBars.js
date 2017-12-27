@@ -16,7 +16,7 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                 }
                 data = data.data;
                 //initialize variables
-                var names = ["color", "letter", "shape", "country"];
+                var names = factory.extractNames(data); //["color", "letter", "shape", "country"]
                 var cf = crossfilter(data);
                 var colorDimension;
                 var letterDimension;

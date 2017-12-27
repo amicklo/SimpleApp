@@ -129,7 +129,23 @@ app.factory('factory', function () {
          * This will pull the categories of data out of an object in the data array
          */
         extractNames: function (data) {
-            return;
+            var val;
+            var names = [];
+            var s;
+            var x = JSON.stringify(data[0]);
+            while (s != "members") {
+                val = x.search("\"");
+                x = x.substring(val + 1, x.length);
+                val = x.search("\"");
+                s = x.substring(0, val);
+                if (s == "members") {
+                    break;
+                }
+                names.push(s);
+                val = x.search(",");
+                x = x.substring(val + 1, x.length);
+            }
+            return names;
         }
     }
 });
