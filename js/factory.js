@@ -124,6 +124,12 @@ app.factory('factory', function () {
                 });
 
             return svg;
+        },
+        /*
+         * This will pull the categories of data out of an object in the data array
+         */
+        extractNames: function (data) {
+            return;
         }
     }
 });
