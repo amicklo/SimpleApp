@@ -1,4 +1,4 @@
-app.factory('factory', function () {
+app.factory('factory', [function () {
     return {
         filter: function (dimension) {
             //initialize grouping
@@ -107,10 +107,10 @@ app.factory('factory', function () {
 
             return svg;
         },
-        drawWithTags: function (svg, currSet, sets, data, x, y, width, height, heightMod, chartPad, tag, name) {
-            var allSets = sets[0];
-            for (var i in sets) {
-                allSets.concat(sets[i]);
+        drawWithTags: function (svg, currSet, memberSets, fundSets, data, x, y, width, height, heightMod, chartPad, tag, name) {
+            var allSets = memberSets[0];
+            for (var i in memberSets) {
+                allSets.concat(memberSets[i]);
             }
             x.domain([0, d3.max(allSets, function (d) {
                 return d.value + chartPad;
@@ -127,7 +127,6 @@ app.factory('factory', function () {
             svg.append("g")
                 .style("font", "13px sans-serif")
                 .call(d3.axisLeft(y));
-
             // append the Bars
             svg.selectAll(".bar")
                 .data(currSet)
@@ -137,7 +136,11 @@ app.factory('factory', function () {
                 .attr("y", function (d) {
                     return y(d.key) + (y.bandwidth() / heightMod);
                 })
-                .attr("height", y.bandwidth() / heightMod);
+                .attr("height", y.bandwidth() / heightMod)
+                .append("title")
+                .text(function (d, i) {
+                    return (d.key + "\nMembers: " + d.value + "\nFunds: " + fundSets[tag][i].value);
+                });
 
             svg.selectAll(".bar")
                 .data(currSet)
@@ -155,9 +158,6 @@ app.factory('factory', function () {
                 .text(name);
 
             return svg;
-        },
-        addTooltips: function () {
-
         },
         /*
          * This will pull the categories of data out of the first object in the data array
@@ -182,4 +182,4 @@ app.factory('factory', function () {
             return names;
         }
     }
-});
+}]);

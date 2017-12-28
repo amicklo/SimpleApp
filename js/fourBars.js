@@ -37,7 +37,7 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                     memberSets.push(factory.memberFilter(dimensions[i]));
                 }
                 for (var i in dimensions) {
-                    //memberSets.push(factory.fundFilter(dimensions[i]));
+                    fundSets.push(factory.fundFilter(dimensions[i]));
                 }
                 //initialize chart style variables
                 var chartPad = 25;
@@ -64,7 +64,7 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                 svg.attr('class', $scope.param);
 
                 // draw the charts
-                svg = factory.drawWithTags(svg, memberSets[$scope.index], memberSets, data, x, y, width, height, heightMod, chartPad, $scope.index, names[$scope.index]);
+                svg = factory.drawWithTags(svg, memberSets[$scope.index], memberSets, fundSets, data, x, y, width, height, heightMod, chartPad, $scope.index, names[$scope.index]);
 
                 /* ------ INTERACTIVITY BELOW THIS LINE ----- */
 
@@ -77,9 +77,9 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                             "type": svg.attr("class"),
                             "key": d
                         };
-                    
+
                         $rootScope.dims.push(holder);
-                    
+
                         if ($rootScope.dims.length <= 4) {
                             for (var i in names) {
                                 if (i != d3.select(this).attr("tag")) {
@@ -96,7 +96,7 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                                 .attr("width", function (d) {
                                     return x(d.value);
                                 });
-                            
+
                         } else {
                             alert("can't do more than four values");
                         }

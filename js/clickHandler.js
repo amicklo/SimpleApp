@@ -26,15 +26,15 @@ app.factory('clickHandler', ['factory', function (factory) {
         memberFunc: function (set, names, dimensions, x, svg, svg2, dObj) {
             //filter by selected bar
             for (var i in dObj) {
-                for (var j in names){
-                    if (dObj[i].type == names[j]){
+                for (var j in names) {
+                    if (dObj[i].type == names[j]) {
                         dimensions[j] = dimensions[j].filter(dObj[i].key.key);
                     }
                 }
             }
             var vals;
-            for (var i in names){
-                if(svg2.attr("class") == names[i]){
+            for (var i in names) {
+                if (svg2.attr("class") == names[i]) {
                     vals = factory.memberFilter(dimensions[i]);
                 }
             }
