@@ -40,6 +40,26 @@ app.factory('factory', function () {
             //reduce groupings
             return grouping.reduce(reduceAdd, reduceRemove, reduceInitial).all();
         },
+        fundFilter: function (dimension) {
+            //initialize grouping
+            var grouping = dimension.group();
+
+            //initialize reduce functions
+            function reduceAdd(p, v) {
+                return p + v.funds;
+            }
+
+            function reduceRemove(p, v) {
+                return p - v.funds;
+            }
+
+            function reduceInitial() {
+                return 0;
+            }
+
+            //reduce groupings
+            return grouping.reduce(reduceAdd, reduceRemove, reduceInitial).all();
+        },
         addChart: function (margin, width, height) {
             // create an svg object with size based on the parameters
             var svg = d3.select("body").append("svg")
@@ -87,9 +107,9 @@ app.factory('factory', function () {
 
             return svg;
         },
-        drawWithTags: function (svg, currSet, sets, data, x, y, height, heightMod, chartPad, tag) {
+        drawWithTags: function (svg, currSet, sets, data, x, y, width, height, heightMod, chartPad, tag, name) {
             var allSets = sets[0];
-            for(var i in sets){
+            for (var i in sets) {
                 allSets.concat(sets[i]);
             }
             x.domain([0, d3.max(allSets, function (d) {
@@ -126,8 +146,18 @@ app.factory('factory', function () {
                 .attr("width", function (d) {
                     return x(d.value);
                 });
+            name = name.charAt(0).toUpperCase() + name.substring(1, name.length);
+            svg.append("text")
+                .attr("x", (width / 2))
+                .attr("y", (height + 20))
+                .attr("text-anchor", "middle")
+                .style("font-size", "16px")
+                .text(name);
 
             return svg;
+        },
+        addTooltips: function () {
+
         },
         /*
          * This will pull the categories of data out of the first object in the data array

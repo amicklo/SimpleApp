@@ -20,7 +20,8 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                 var cf = crossfilter(data);
                 var holder;
                 var dimensions = [];
-                var sets = [];
+                var memberSets = [];
+                var fundSets = [];
 
                 // resets the dimensions
                 function initFilter() {
@@ -33,18 +34,21 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                 }
                 initFilter();
                 for (var i in dimensions) {
-                    sets.push(factory.memberFilter(dimensions[i]));
+                    memberSets.push(factory.memberFilter(dimensions[i]));
+                }
+                for (var i in dimensions) {
+                    //memberSets.push(factory.fundFilter(dimensions[i]));
                 }
                 //initialize chart style variables
                 var chartPad = 25;
                 var margin = {
                         top: 20,
                         right: 20,
-                        bottom: 30,
+                        bottom: 40,
                         left: 75
                     },
-                    width = 960 - margin.left - margin.right,
-                    height = 500 - margin.top - margin.bottom;
+                    width = 560 - margin.left - margin.right,
+                    height = 400 - margin.top - margin.bottom;
                 // set the ranges
                 var y = d3.scaleBand()
                     .range([height, 0])
@@ -55,19 +59,19 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
 
                 /* ------- DRAW CHART BELOW THIS LINE ------- */
 
-                d3.select("body").append("h1").html($scope.param);
+                //d3.select("body").append("h1").html($scope.param);
                 var svg = factory.addChart(margin, width, height);
                 svg.attr('class', $scope.param);
 
                 // draw the charts
-                svg = factory.drawWithTags(svg, sets[$scope.index], sets, data, x, y, height, heightMod, chartPad, $scope.index);
+                svg = factory.drawWithTags(svg, memberSets[$scope.index], memberSets, data, x, y, width, height, heightMod, chartPad, $scope.index, names[$scope.index]);
 
                 /* ------ INTERACTIVITY BELOW THIS LINE ----- */
 
                 var svg2;
                 var dimension2;
                 svg.selectAll(".bar")
-                    .data(sets[$scope.index])
+                    .data(memberSets[$scope.index])
                     .on("click", function (d) {
                         holder = {
                             "type": svg.attr("class"),
@@ -80,7 +84,7 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                             for (var i in names) {
                                 if (i != d3.select(this).attr("tag")) {
                                     svg2 = d3.select("." + names[i]);
-                                    clickHandler.altFunc(sets[$scope.index], names, dimensions, x, svg, svg2, $rootScope.dims);
+                                    clickHandler.memberFunc(memberSets[$scope.index], names, dimensions, x, svg, svg2, $rootScope.dims);
                                 }
                             }
 

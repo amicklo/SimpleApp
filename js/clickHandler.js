@@ -23,7 +23,7 @@ app.factory('clickHandler', ['factory', function (factory) {
                     return x(d.value);
                 });
         },
-        altFunc: function (set, names, dimensions, x, svg, svg2, dObj) {
+        memberFunc: function (set, names, dimensions, x, svg, svg2, dObj) {
             //filter by selected bar
             for (var i in dObj) {
                 for (var j in names){
