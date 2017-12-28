@@ -8,6 +8,10 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
             index: '='
         },
         controller: function ($rootScope, $scope) {
+            d3.select("#reset")
+                .on("click", function () {
+                    location.reload(true);
+                });
             d3.json('data/dataFourCat.json', function (error, data) {
                 if (error) throw error;
                 //extract data
@@ -47,7 +51,7 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                         bottom: 40,
                         left: 75
                     },
-                    width = 560 - margin.left - margin.right,
+                    width = 625 - margin.left - margin.right,
                     height = 400 - margin.top - margin.bottom;
                 // set the ranges
                 var y = d3.scaleBand()
@@ -84,7 +88,7 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                             for (var i in names) {
                                 if (i != d3.select(this).attr("tag")) {
                                     svg2 = d3.select("." + names[i]);
-                                    clickHandler.memberFunc(memberSets[$scope.index], names, dimensions, x, svg, svg2, $rootScope.dims);
+                                    clickHandler.memberFunc(memberSets[$scope.index], names, dimensions, x, svg, svg2, $rootScope.dims, $scope.index);
                                 }
                             }
 
@@ -101,6 +105,7 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                             alert("can't do more than four values");
                         }
                     });
+
             });
         }
     }

@@ -18,22 +18,38 @@
 
 <body ng-app="myApp">
     <!-- draw function and style source https://bl.ocks.org/basilesimon/29efb0e0a43dde81985c20d9a862e34e -->
-    <div class="tabs">
-        <tabs></tabs>
-    </div>
-    <div class="buttons">
-        <button type="button" class="btn btn-info" tag="members">Members</button>
-        <button type="button" class="btn btn-info" tag="funds">Funds</button>
-        <button type="button" class="btn btn-danger" tag="reset">RESET</button>
-    </div>
-    <div class="main" ng-controller="BarChartController">
-        <div ng-repeat="name in names">
-            <four-bars param="{{ name }}" index="$index"></four-bars>
+    <div class="header">
+        <div class="tabs">
+            <tabs></tabs>
         </div>
-        <div id="tooltip" class="hidden">
-            <p id="category"></p>
-            <p id="members"></p>
-            <p id="funds"></p>
+        <div class="buttons">
+            <button type="button" class="btn btn-info" tag="members">Members</button>
+            <button type="button" class="btn btn-info" tag="funds">Funds</button>
+            <button type="button" class="btn btn-danger" id="reset">RESET</button>
+        </div>
+        <div class="main" ng-controller="BarChartController">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th ng-repeat="name in names">{{ name }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td ng-repeat="name in names" id="{{ name }}"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="boundary"></div>
+        </div>
+
+
+
+        <div class="charts" ng-repeat="name in names">
+            <div class="clearfix" ng-if="$even"></div>
+            <div class="col-xs-6">
+                <four-bars param="{{ name }}" index="$index"></four-bars>
+            </div>
         </div>
     </div>
 
@@ -46,7 +62,7 @@
     <!-- Directives -->
     <script src="js/tabs.js"></script>
     <script src="js/fourBars.js"></script>
-    
+
     <!-- Services -->
     <script src="js/factory.js"></script>
     <script src="js/clickHandler.js"></script>

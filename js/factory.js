@@ -112,7 +112,7 @@ app.factory('factory', [function () {
             for (var i in memberSets) {
                 allSets.concat(memberSets[i]);
             }
-            x.domain([0, d3.max(allSets, function (d) {
+            x.domain([0, d3.max(memberSets[3], function (d) {
                 return d.value + chartPad;
             })]);
             y.domain(currSet.map(function (d) {

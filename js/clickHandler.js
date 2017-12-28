@@ -23,7 +23,7 @@ app.factory('clickHandler', ['factory', function (factory) {
                     return x(d.value);
                 });
         },
-        memberFunc: function (set, names, dimensions, x, svg, svg2, dObj) {
+        memberFunc: function (set, names, dimensions, x, svg, svg2, dObj, index) {
             //filter by selected bar
             for (var i in dObj) {
                 for (var j in names) {
@@ -44,7 +44,7 @@ app.factory('clickHandler', ['factory', function (factory) {
                 .transition()
                 .duration(1000)
                 .attr("fill", "gray")
-                //.attr("stroke", "none")
+                .attr("stroke", "none")
                 .attr("width", function (d) {
                     return x(d.value);
                 });
@@ -58,6 +58,9 @@ app.factory('clickHandler', ['factory', function (factory) {
                     return x(vals[i].value);
                 })
                 .attr("fill", "black");
+            
+            d3.select("#" + names[index])
+            .text(dObj[dObj.length - 1].key.key);
         }
     }
 }]);
