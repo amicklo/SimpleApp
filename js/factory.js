@@ -110,9 +110,9 @@ app.factory('factory', [function () {
         drawWithTags: function (svg, currSet, memberSets, fundSets, data, x, y, width, height, heightMod, chartPad, tag, name) {
             var allSets = memberSets[0];
             for (var i in memberSets) {
-                allSets.concat(memberSets[i]);
+                allSets = allSets.concat(memberSets[i]);
             }
-            x.domain([0, d3.max(memberSets[3], function (d) {
+            x.domain([0, d3.max(allSets, function (d) {
                 return d.value + chartPad;
             })]);
             y.domain(currSet.map(function (d) {

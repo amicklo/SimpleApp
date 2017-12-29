@@ -18,6 +18,9 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                 if ($rootScope.dims == null) {
                     $rootScope.dims = [];
                 }
+                if ($rootScope.filterOn == null) {
+                    $rootScope.filterOn = "members";
+                }
                 data = data.data;
                 //initialize variables
                 var names = factory.extractNames(data); //["color", "letter", "shape", "country"]
@@ -89,11 +92,13 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                             for (var i in names) {
                                 if (i != d3.select(this).attr("tag")) {
                                     svg2 = d3.select("." + names[i]);
-                                    if (filterOn == "members") {
-                                        clickHandler.memberFunc(memberSets[$scope.index], names, dimensions, x, svg, svg2, $rootScope.dims, $scope.index, memberSets, fundSets);
+                                    if ($rootScope.filterOn == "members") {
+                                        //x = clickHandler.changeScale("members", x, fundSets, memberSets, height);
+                                        clickHandler.memberFunc(memberSets[$scope.index], names, dimensions, x, svg, svg2, $rootScope.dims, $scope.index, memberSets, fundSets, false, height);
                                     }
-                                    if (filterOn == "funds") {
-                                        clickHandler.fundFunc(fundSets[$scope.index], names, dimensions, x, svg, svg2, $rootScope.dims, $scope.index, memberSets, fundSets);
+                                    if ($rootScope.filterOn == "funds") {
+                                        //x = clickHandler.changeScale("funds", x, fundSets, memberSets, height);
+                                        clickHandler.fundFunc(fundSets[$scope.index], names, dimensions, x, svg, svg2, $rootScope.dims, $scope.index, memberSets, fundSets, false, height);
                                     }
                                 }
                             }
@@ -102,10 +107,7 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                                 .transition()
                                 .duration(1000)
                                 .attr("fill", "black")
-                                .attr("stroke", "yellow")
-                                .attr("width", function (d) {
-                                    return x(d.value);
-                                });
+                                .attr("stroke", "yellow");
 
                         } else {
                             alert("can't do more than four values");
@@ -115,13 +117,21 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                 d3.select("#funds")
                     .on("click", function () {
                         x = clickHandler.changeScale("funds", x, fundSets, memberSets, height);
-                        filterOn = "funds";
+                        $rootScope.filterOn = "funds";
+                        for (var i in names) {
+                            svg2 = d3.select("." + names[i]);
+                            clickHandler.fundFunc(fundSets[$scope.index], names, dimensions, x, svg, svg2, $rootScope.dims, $scope.index, memberSets, fundSets, true, height);
+                        }
                     });
 
                 d3.select("#members")
                     .on("click", function () {
                         x = clickHandler.changeScale("members", x, fundSets, memberSets, height);
-                        filterOn = "members";
+                        $rootScope.filterOn = "members";
+                        for (var i in names) {
+                            svg2 = d3.select("." + names[i]);
+                            clickHandler.memberFunc(memberSets[$scope.index], names, dimensions, x, svg, svg2, $rootScope.dims, $scope.index, memberSets, fundSets, true, height);
+                        }
                     });
             });
         }

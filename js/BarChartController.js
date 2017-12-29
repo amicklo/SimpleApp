@@ -10,4 +10,5 @@
 app.controller('BarChartController', ['$rootScope', '$scope', 'factory', function ($scope, $rootScope, factory) {
     $scope.names = ["color", "letter", "shape", "country"];
     $rootScope.dims = [];
+    $rootScope.filterOn = "members";
 }]);

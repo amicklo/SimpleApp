@@ -23,8 +23,18 @@ app.factory('clickHandler', ['factory', function (factory) {
                     return x(d.value);
                 });
         },
-        memberFunc: function (set, names, dimensions, x, svg, svg2, dObj, index, memberSets, fundSets) {
+        memberFunc: function (set, names, dimensions, x, svg, svg2, dObj, index, memberSets, fundSets, changingCat) {
             //filter by selected bar
+            /*
+            var allSets = memberSets[0];
+            for (var i in memberSets) {
+                allSets = allSets.concat(memberSets[i]);
+            }
+            
+            x.domain([0, d3.max(allSets, function (d) {
+                return d.value + 25;
+            })]);
+            */
             for (var i in dObj) {
                 for (var j in names) {
                     if (dObj[i].type == names[j]) {
@@ -43,12 +53,13 @@ app.factory('clickHandler', ['factory', function (factory) {
                 .data(set)
                 .transition()
                 .duration(1000)
-                .attr("fill", "gray")
-                .attr("stroke", "none")
-                .attr("width", function (d) {
-                    return x(d.value);
-                });
-
+                .attr("fill", "gray");
+                //.attr("stroke", "none");
+            /*
+            .attr("width", function (d) {
+                return x(d.value);
+            });
+            */
             //set bars in other chart to their new sizes
             svg2.selectAll(".bar")
                 .data(vals)
@@ -61,17 +72,28 @@ app.factory('clickHandler', ['factory', function (factory) {
                 .attr("fill", "black")
                 .select("title")
                 .text(function (d, i) {
-                    if (index == 3 && i == 2) {
+                    if (vals.length == 3 && i == 2) {
                         return;
                     }
                     return (d.key + "\nMembers: " + d.value + "\nFunds: " + fundSets[index][i].value);
                 });
-
-            d3.select("#" + names[index])
-                .text(dObj[dObj.length - 1].key.key);
+            if (!changingCat) {
+                d3.select("#" + names[index])
+                    .text(dObj[dObj.length - 1].key.key);
+            }
         },
-        fundFunc: function (set, names, dimensions, x, svg, svg2, dObj, index, memberSets, fundSets) {
+        fundFunc: function (set, names, dimensions, x, svg, svg2, dObj, index, memberSets, fundSets, changingCat) {
             //filter by selected bar
+            /*
+            var allSets = fundSets[0];
+            for (var i in fundSets) {
+                allSets = allSets.concat(fundSets[i]);
+            }
+            x.domain([0, d3.max(allSets, function (d) {
+                return d.value + 250;
+            })]);
+            */
+
             for (var i in dObj) {
                 for (var j in names) {
                     if (dObj[i].type == names[j]) {
@@ -91,7 +113,7 @@ app.factory('clickHandler', ['factory', function (factory) {
                 .transition()
                 .duration(1000)
                 .attr("fill", "gray")
-                .attr("stroke", "none")
+                //.attr("stroke", "none")
                 .attr("width", function (d) {
                     return x(d.value);
                 });
@@ -108,23 +130,36 @@ app.factory('clickHandler', ['factory', function (factory) {
                 .attr("fill", "black")
                 .select("title")
                 .text(function (d, i) {
-                    if (index == 3 && i == 2) {
+                    if (vals.length == 3 && i == 2) {
                         return;
                     }
-                    return (d.key + "\nMembers: " + memberSets[index][i] + "\nFunds: " + d.value);
+                    return (d.key + "\nMembers: " + memberSets[index][i].value + "\nFunds: " + d.value);
                 });
-
-            d3.select("#" + names[index])
-                .text(dObj[dObj.length - 1].key.key);
+            if (!changingCat) {
+                d3.select("#" + names[index])
+                    .text(dObj[dObj.length - 1].key.key);
+            }
         },
         changeScale: function (param, x, fundSets, memberSets, height) {
+            var allSets = memberSets[0];
+            for (var i in memberSets) {
+                allSets = allSets.concat(memberSets[i]);
+            }
             if (param == "funds") {
-                x.domain([0, d3.max(fundSets[3], function (d) {
+                var allSets = fundSets[0];
+                for (var i in fundSets) {
+                    allSets = allSets.concat(fundSets[i]);
+                }
+                x.domain([0, d3.max(allSets, function (d) {
                     return d.value + 250;
                 })]);
             }
             if (param == "members") {
-                x.domain([0, d3.max(memberSets[3], function (d) {
+                var allSets = memberSets[0];
+                for (var i in memberSets) {
+                    allSets = allSets.concat(memberSets[i]);
+                }
+                x.domain([0, d3.max(allSets, function (d) {
                     return d.value + 25;
                 })]);
             }
