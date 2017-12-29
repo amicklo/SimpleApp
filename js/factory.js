@@ -121,12 +121,14 @@ app.factory('factory', [function () {
 
             // append the x and y Axes
             svg.append("g")
+                .attr("class", "x axis")
                 .attr("transform", "translate(0," + height + ")")
                 .call(d3.axisBottom(x).ticks(7).tickSizeInner([-height]));
 
             svg.append("g")
                 .style("font", "13px sans-serif")
                 .call(d3.axisLeft(y));
+
             // append the Bars
             svg.selectAll(".bar")
                 .data(currSet)
@@ -149,6 +151,7 @@ app.factory('factory', [function () {
                 .attr("width", function (d) {
                     return x(d.value);
                 });
+
             name = name.charAt(0).toUpperCase() + name.substring(1, name.length);
             svg.append("text")
                 .attr("x", (width / 2))

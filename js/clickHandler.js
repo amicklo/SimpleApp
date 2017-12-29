@@ -23,7 +23,7 @@ app.factory('clickHandler', ['factory', function (factory) {
                     return x(d.value);
                 });
         },
-        memberFunc: function (set, names, dimensions, x, svg, svg2, dObj, index) {
+        memberFunc: function (set, names, dimensions, x, svg, svg2, dObj, index, memberSets, fundSets) {
             //filter by selected bar
             for (var i in dObj) {
                 for (var j in names) {
@@ -51,16 +51,41 @@ app.factory('clickHandler', ['factory', function (factory) {
 
             //set bars in other chart to their new sizes
             svg2.selectAll(".bar")
+                .data(vals)
                 .transition()
                 .duration(1000)
                 //.attr("stroke", "none")
                 .attr("width", function (d, i) {
                     return x(vals[i].value);
                 })
-                .attr("fill", "black");
-            
+                .attr("fill", "black")
+                .select("title")
+                .text(function (d, i) {
+                    if(index == 3 && i == 2){
+                        return;
+                    }
+                    return (d.key + "\nMembers: " + d.value + "\nFunds: " + fundSets[index][i].value);
+                });
+
             d3.select("#" + names[index])
-            .text(dObj[dObj.length - 1].key.key);
+                .text(dObj[dObj.length - 1].key.key);
+        },
+        changeScale: function (param, x, fundSets, memberSets, chartPad, height) {
+            if (param == "funds") {
+                x.domain([0, d3.max(fundSets[3], function (d) {
+                    return d.value + chartPad;
+                })]);
+            }
+            if (param == "members") {
+                x.domain([0, d3.max(memberSets[3], function (d) {
+                    return d.value + chartPad;
+                })]);
+            }
+            d3.selectAll(".x.axis")
+                .transition()
+                .duration(500)
+                .call(d3.axisBottom(x).ticks(7).tickSizeInner([-height]));
+
         }
     }
 }]);

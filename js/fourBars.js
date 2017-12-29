@@ -88,7 +88,7 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                             for (var i in names) {
                                 if (i != d3.select(this).attr("tag")) {
                                     svg2 = d3.select("." + names[i]);
-                                    clickHandler.memberFunc(memberSets[$scope.index], names, dimensions, x, svg, svg2, $rootScope.dims, $scope.index);
+                                    clickHandler.memberFunc(memberSets[$scope.index], names, dimensions, x, svg, svg2, $rootScope.dims, $scope.index, memberSets, fundSets);
                                 }
                             }
 
@@ -106,6 +106,10 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                         }
                     });
 
+                d3.select("#funds")
+                    .on("click", function () {
+                        clickHandler.changeScale("funds", x, memberSets, fundSets, chartPad, height);
+                    });
             });
         }
     }
