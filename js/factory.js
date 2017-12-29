@@ -155,7 +155,7 @@ app.factory('factory', [function () {
             name = name.charAt(0).toUpperCase() + name.substring(1, name.length);
             svg.append("text")
                 .attr("x", (width / 2))
-                .attr("y", (height + 20))
+                .attr("y", (height + 25))
                 .attr("text-anchor", "middle")
                 .style("font-size", "16px")
                 .text(name);

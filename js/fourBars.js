@@ -26,6 +26,7 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                 var dimensions = [];
                 var memberSets = [];
                 var fundSets = [];
+                var filterOn = "members";
 
                 // resets the dimensions
                 function initFilter() {
@@ -88,7 +89,12 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                             for (var i in names) {
                                 if (i != d3.select(this).attr("tag")) {
                                     svg2 = d3.select("." + names[i]);
-                                    clickHandler.memberFunc(memberSets[$scope.index], names, dimensions, x, svg, svg2, $rootScope.dims, $scope.index, memberSets, fundSets);
+                                    if (filterOn == "members") {
+                                        clickHandler.memberFunc(memberSets[$scope.index], names, dimensions, x, svg, svg2, $rootScope.dims, $scope.index, memberSets, fundSets);
+                                    }
+                                    if (filterOn == "funds") {
+                                        clickHandler.fundFunc(fundSets[$scope.index], names, dimensions, x, svg, svg2, $rootScope.dims, $scope.index, memberSets, fundSets);
+                                    }
                                 }
                             }
 
@@ -108,7 +114,14 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
 
                 d3.select("#funds")
                     .on("click", function () {
-                        clickHandler.changeScale("funds", x, memberSets, fundSets, chartPad, height);
+                        x = clickHandler.changeScale("funds", x, fundSets, memberSets, height);
+                        filterOn = "funds";
+                    });
+
+                d3.select("#members")
+                    .on("click", function () {
+                        x = clickHandler.changeScale("members", x, fundSets, memberSets, height);
+                        filterOn = "members";
                     });
             });
         }
