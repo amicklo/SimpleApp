@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <!-- Clock style modified from: https://gist.github.com/ahmetkizilay/b3266198301e6ab46288#file-index-html -->
+
 <head>
     <!-- Dependencies -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.5/angular.min.js"></script>
@@ -12,6 +13,7 @@
     <script src="d3/d3.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment-with-locales.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <script src="js/moment-timezone-with-data.min.js"></script>
 
     <!-- Style -->
     <link href="css/style.css" rel="stylesheet" />
@@ -26,12 +28,17 @@
         <div class="boundary"></div>
     </div>
     <br/>
-    <div class="clocks">
-        <draw-clock></draw-clock>
+    <div class="main" ng-controller="ClockController">
+        <div class="clocks" ng-repeat="zone in zones">
+            <draw-clock param="{{ zone }}" index="$index"></draw-clock>
+        </div>
     </div>
 
     <!-- Modules -->
     <script src="js/app.js"></script>
+
+    <!-- Controllers -->
+    <script src="js/ClockController.js"></script>
 
     <!-- Directives -->
     <script src="js/tabs.js"></script>
