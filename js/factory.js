@@ -20,6 +20,32 @@ app.factory('factory', [function () {
             //reduce groupings
             return grouping.reduce(reduceAdd, reduceRemove, reduceInitial).all();
         },
+        reduce: function (dimension) {
+            var grouping = dimension.group();
+
+            function reduceInitial() {
+                return {
+                    members: 0,
+                    funds: 0
+                };
+            }
+
+            function reduceAdd(p, v) {
+                for (var i in p){
+                    p[i] = p[i] + v[i];
+                }
+                return p;
+            }
+            
+            function reduceRemove(p, v) {
+                for (var i in p){
+                    p[i] = p[i] - v[i];
+                }
+                return p;
+            }
+
+            return grouping.reduce(reduceAdd, reduceRemove, reduceInitial).all();
+        },
         memberFilter: function (dimension) {
             //initialize grouping
             var grouping = dimension.group();

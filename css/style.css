@@ -80,6 +80,13 @@ p.price {
     top: 34px;
 }
 
+.toggles {
+    margin: 10px 20% 0 32%;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 34px;
+}
+
 .boundary {
     background: black;
     padding: 3px;

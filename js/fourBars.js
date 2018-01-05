@@ -41,12 +41,24 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                     }
                 }
                 initFilter();
+                /*
+                for (var i in dimensions) {
+                    var temp = factory.reduce(dimensions[i]);
+                    memberSets.push({
+                        temp[0].key: temp[0].value.members
+                    });
+                    fundSets.push({
+                        temp[1].key: temp[1].value.funds
+                    });
+                }
+                */
                 for (var i in dimensions) {
                     memberSets.push(factory.memberFilter(dimensions[i]));
                 }
                 for (var i in dimensions) {
                     fundSets.push(factory.fundFilter(dimensions[i]));
                 }
+                
                 //initialize chart style variables
                 var chartPad = 25;
                 var margin = {
