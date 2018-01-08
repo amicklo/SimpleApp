@@ -25,16 +25,6 @@ app.factory('clickHandler', ['factory', function (factory) {
         },
         memberFunc: function (set, names, dimensions, x, svg, svg2, dObj, index, memberSets, fundSets, changingCat) {
             //filter by selected bar
-            /*
-            var allSets = memberSets[0];
-            for (var i in memberSets) {
-                allSets = allSets.concat(memberSets[i]);
-            }
-            
-            x.domain([0, d3.max(allSets, function (d) {
-                return d.value + 25;
-            })]);
-            */
             for (var i in dObj) {
                 for (var j in names) {
                     if (dObj[i].type == names[j]) {
@@ -42,10 +32,17 @@ app.factory('clickHandler', ['factory', function (factory) {
                     }
                 }
             }
-            var vals;
-            for (var i in names) {
+            var vals = [];
+            for (i in names) {
                 if (svg2.attr("class") == names[i]) {
-                    vals = factory.memberFilter(dimensions[i]);
+                    //vals = factory.memberFilter(dimensions[i]);
+                    var temp = factory.reduce(dimensions[i]);
+                    for (j in temp) {
+                        vals.push({
+                            key: temp[j].key,
+                            value: temp[j].value.members
+                        });
+                    }
                 }
             }
             //set deselected bars to be gray
@@ -53,13 +50,10 @@ app.factory('clickHandler', ['factory', function (factory) {
                 .data(set)
                 .transition()
                 .duration(1000)
+                //.attr("stroke", "none")
                 .attr("fill", "gray");
-                //.attr("stroke", "none");
-            /*
-            .attr("width", function (d) {
-                return x(d.value);
-            });
-            */
+
+
             //set bars in other chart to their new sizes
             svg2.selectAll(".bar")
                 .data(vals)
@@ -84,15 +78,6 @@ app.factory('clickHandler', ['factory', function (factory) {
         },
         fundFunc: function (set, names, dimensions, x, svg, svg2, dObj, index, memberSets, fundSets, changingCat) {
             //filter by selected bar
-            /*
-            var allSets = fundSets[0];
-            for (var i in fundSets) {
-                allSets = allSets.concat(fundSets[i]);
-            }
-            x.domain([0, d3.max(allSets, function (d) {
-                return d.value + 250;
-            })]);
-            */
 
             for (var i in dObj) {
                 for (var j in names) {
@@ -101,10 +86,17 @@ app.factory('clickHandler', ['factory', function (factory) {
                     }
                 }
             }
-            var vals;
+            var vals = [];
             for (var i in names) {
                 if (svg2.attr("class") == names[i]) {
-                    vals = factory.fundFilter(dimensions[i]);
+                    //vals = factory.fundFilter(dimensions[i]);
+                    var temp = factory.reduce(dimensions[i]);
+                    for (j in temp) {
+                        vals.push({
+                            key: temp[j].key,
+                            value: temp[j].value.funds
+                        });
+                    }
                 }
             }
             //set deselected bars to be gray
@@ -112,11 +104,8 @@ app.factory('clickHandler', ['factory', function (factory) {
                 .data(set)
                 .transition()
                 .duration(1000)
-                .attr("fill", "gray")
                 //.attr("stroke", "none")
-                .attr("width", function (d) {
-                    return x(d.value);
-                });
+                .attr("fill", "gray");
 
             //set bars in other chart to their new sizes
             svg2.selectAll(".bar")

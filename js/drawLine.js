@@ -1,4 +1,4 @@
-app.directive('drawLine', function (factory) {
+app.directive('drawLine', function () {
     var margin = {
             top: 20,
             right: 20,

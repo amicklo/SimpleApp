@@ -41,24 +41,39 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                     }
                 }
                 initFilter();
-                /*
+
                 for (var i in dimensions) {
                     var temp = factory.reduce(dimensions[i]);
-                    memberSets.push({
-                        temp[0].key: temp[0].value.members
-                    });
-                    fundSets.push({
-                        temp[1].key: temp[1].value.funds
-                    });
+                    var setHolder = [];
+                    for (var j in temp) {
+                        setHolder.push({
+                            key: temp[j].key,
+                            value: temp[j].value.members
+                        });
+                        if (!memberSets.includes(setHolder)) {
+                            memberSets.push(setHolder);
+                        }
+                    }
+                    setHolder = [];
+                    for (var k in temp) {
+                        setHolder.push({
+                            key: temp[k].key,
+                            value: temp[k].value.funds
+                        });
+                        if (!fundSets.includes(setHolder)) {
+                            fundSets.push(setHolder);
+                        }
+                    }
                 }
-                */
+                /*
                 for (var i in dimensions) {
                     memberSets.push(factory.memberFilter(dimensions[i]));
                 }
+
                 for (var i in dimensions) {
                     fundSets.push(factory.fundFilter(dimensions[i]));
                 }
-                
+                */
                 //initialize chart style variables
                 var chartPad = 25;
                 var margin = {
@@ -109,7 +124,7 @@ app.directive('fourBars', ['factory', 'clickHandler', '$rootScope', function (fa
                                         clickHandler.memberFunc(memberSets[$scope.index], names, dimensions, x, svg, svg2, $rootScope.dims, $scope.index, memberSets, fundSets, false, height);
                                     }
                                     if ($rootScope.filterOn == "funds") {
-                                        //x = clickHandler.changeScale("funds", x, fundSets, memberSets, height);
+                                        x = clickHandler.changeScale("funds", x, fundSets, memberSets, height);
                                         clickHandler.fundFunc(fundSets[$scope.index], names, dimensions, x, svg, svg2, $rootScope.dims, $scope.index, memberSets, fundSets, false, height);
                                     }
                                 }

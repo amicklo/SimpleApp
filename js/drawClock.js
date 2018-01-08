@@ -75,7 +75,7 @@ app.directive('drawClock', [function ($scope, $rootScope) {
             var animateLabel = function () {
                 var me = this;
                 me.transition()
-                    .duration(500)
+                    .duration(50)
                     .text(moment().tz($scope.param).format($rootScope.timeFormat))
                     .on("end", function () {
                         animateLabel.call(me);
@@ -86,7 +86,7 @@ app.directive('drawClock', [function ($scope, $rootScope) {
                 .attr("cx", halfWidth)
                 .attr("cy", halfHeight)
                 .attr("r", big_radius)
-                .style("fill", "azure")
+                .style("fill", "rgb(245, 245, 250)")
                 .style("stroke-width", "6px")
                 .style("stroke", "white");
             /* let's draw 12 circles around a circle
