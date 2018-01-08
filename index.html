@@ -12,7 +12,11 @@
 </head>
 
 <body ng-app="myApp" ng-init="setTitleProducts()">
-    <tabs></tabs>
+    <div class="header">
+        <tabs></tabs>
+        <div class="boundary"></div>
+    </div>
+
     <div class="main" ng-controller="MainController">
         <br/>
         <h1>
@@ -34,7 +38,7 @@
 
     <!-- Controllers -->
     <script src="js/MainController.js"></script>
-    
+
     <!-- Directives -->
     <script src="js/tabs.js"></script>
 

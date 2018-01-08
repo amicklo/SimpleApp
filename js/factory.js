@@ -45,7 +45,7 @@ app.factory('factory', [function () {
             }
 
             return grouping.reduce(reduceAdd, reduceRemove, reduceInitial).all();
-        },
+        },/*
         memberFilter: function (dimension) {
             //initialize grouping
             var grouping = dimension.group();
@@ -85,7 +85,7 @@ app.factory('factory', [function () {
 
             //reduce groupings
             return grouping.reduce(reduceAdd, reduceRemove, reduceInitial).all();
-        },
+        },*/
         addChart: function (margin, width, height) {
             // create an svg object with size based on the parameters
             var svg = d3.select("body").append("svg")
