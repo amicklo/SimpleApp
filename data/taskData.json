@@ -1,0 +1,36 @@
+{
+    "data": [
+        {
+            "person": "Alice",
+            "task": "Mock Up Data",
+            "startPlan": "08:30:00 CST",
+            "endPlan": "010:30:00 CST",
+            "startActual": "08:30:00 CST",
+            "endActual": "11:10:00 CST"
+        },
+        {
+            "person": "Bob",
+            "task": "Run Tests",
+            "startPlan": "010:00:00 CST",
+            "endPlan": "013:30:00 CST",
+            "startActual": "09:30:00 CST",
+            "endActual": "13:17:00 CST"
+        },
+        {
+            "person": "Chuck",
+            "task": "Reticulate Splines",
+            "startPlan": "015:30:00 CST",
+            "endPlan": "017:30:00 CST",
+            "startActual": "15:30:00 CST",
+            "endActual": "17:30:00 CST"
+        },
+        {
+            "person": "Danielle",
+            "task": "Electric Slide",
+            "startPlan": "09:45:00 CST",
+            "endPlan": "17:45:00 CST",
+            "startActual": "09:30:00 CST",
+            "endActual": "18:52:00 CST"
+        }
+    ]
+}
