@@ -3,6 +3,7 @@
         {
             "person": "Alice",
             "task": "Data",
+            "status": "Complete",
             "startPlan": "2018-01-01 08:30:00",
             "endPlan": "2018-01-01 10:30:00",
             "startActual": "2018-01-01 08:30:00",
@@ -11,6 +12,7 @@
         {
             "person": "Bob",
             "task": "Tests",
+            "status": "Progress",
             "startPlan": "2018-01-01 10:00:00",
             "endPlan": "2018-01-01 13:30:00",
             "startActual": "2018-01-01 09:30:00",
@@ -19,6 +21,7 @@
         {
             "person": "Chuck",
             "task": "Splines",
+            "status": "Overdue",
             "startPlan": "2018-01-01 15:30:00",
             "endPlan": "2018-01-01 17:30:00",
             "startActual": "2018-01-01 15:30:00",
@@ -26,15 +29,17 @@
         },
         {
             "person": "Chuck",
-            "task": "Splines",
-            "startPlan": "2018-01-01 01:00:00",
+            "task": "Reticulate",
+            "status": "Overdue",
+            "startPlan": "2018-01-01 03:05:00",
             "endPlan": "2018-01-01 05:30:00",
-            "startActual": "2018-01-01 01:30:00",
-            "endActual": "2018-01-01 5:45:00"
+            "startActual": "2018-01-01 03:30:00",
+            "endActual": "2018-01-01 6:45:00"
         },
         {
             "person": "Danielle",
             "task": "Slide",
+            "status": "Complete",
             "startPlan": "2018-01-01 09:45:00",
             "endPlan": "2018-01-01 17:45:00",
             "startActual": "2018-01-01 10:30:00",
