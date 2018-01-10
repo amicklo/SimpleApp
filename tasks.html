@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<!-- Clock style modified from: https://gist.github.com/ahmetkizilay/b3266198301e6ab46288#file-index-html -->
+<!-- 
+
+Time logic and bar style from: http://bl.ocks.org/baramuyu/be8e3005cfcb0aba5f763963c75f3c7e
+Grid line functions from: https://bl.ocks.org/alandunning/2b5af0db18bcd0cc94629524ab209dce
+
+
+-->
 
 <head>
     <!-- Dependencies -->
@@ -23,16 +29,19 @@
 <body ng-app="myApp">
     <div class="header">
         <tabs></tabs>
+        <!--button type="button" class="btn btn-info" id="inc">Increase Day</button-->
         <div class="boundary"></div>
     </div>
     <tasks></tasks>
     
+    <!-- App -->
     <script src="js/app.js"></script>
 
-    <!-- Controllers -->
-    
+    <!-- Factories -->
+    <script src="js/taskBars.js"></script>
 
     <!-- Directives -->
     <script src="js/tabs.js"></script>
     <script src="js/tasks.js"></script>
+    
 </body>

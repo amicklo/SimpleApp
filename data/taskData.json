@@ -2,35 +2,43 @@
     "data": [
         {
             "person": "Alice",
-            "task": "Mock Up Data",
-            "startPlan": "08:30:00 CST",
-            "endPlan": "010:30:00 CST",
-            "startActual": "08:30:00 CST",
-            "endActual": "11:10:00 CST"
+            "task": "Data",
+            "startPlan": "2018-01-01 08:30:00",
+            "endPlan": "2018-01-01 10:30:00",
+            "startActual": "2018-01-01 08:30:00",
+            "endActual": "2018-01-01 11:10:00"
         },
         {
             "person": "Bob",
-            "task": "Run Tests",
-            "startPlan": "010:00:00 CST",
-            "endPlan": "013:30:00 CST",
-            "startActual": "09:30:00 CST",
-            "endActual": "13:17:00 CST"
+            "task": "Tests",
+            "startPlan": "2018-01-01 10:00:00",
+            "endPlan": "2018-01-01 13:30:00",
+            "startActual": "2018-01-01 09:30:00",
+            "endActual": "2018-01-01 13:17:00"
         },
         {
             "person": "Chuck",
-            "task": "Reticulate Splines",
-            "startPlan": "015:30:00 CST",
-            "endPlan": "017:30:00 CST",
-            "startActual": "15:30:00 CST",
-            "endActual": "17:30:00 CST"
+            "task": "Splines",
+            "startPlan": "2018-01-01 15:30:00",
+            "endPlan": "2018-01-01 17:30:00",
+            "startActual": "2018-01-01 15:30:00",
+            "endActual": "2018-01-01 17:30:00"
+        },
+        {
+            "person": "Chuck",
+            "task": "Splines",
+            "startPlan": "2018-01-01 01:00:00",
+            "endPlan": "2018-01-01 05:30:00",
+            "startActual": "2018-01-01 01:30:00",
+            "endActual": "2018-01-01 5:45:00"
         },
         {
             "person": "Danielle",
-            "task": "Electric Slide",
-            "startPlan": "09:45:00 CST",
-            "endPlan": "17:45:00 CST",
-            "startActual": "09:30:00 CST",
-            "endActual": "18:52:00 CST"
+            "task": "Slide",
+            "startPlan": "2018-01-01 09:45:00",
+            "endPlan": "2018-01-01 17:45:00",
+            "startActual": "2018-01-01 10:30:00",
+            "endActual": "2018-01-01 18:52:00"
         }
     ]
 }

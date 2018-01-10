@@ -92,3 +92,23 @@ p.price {
     padding: 2px;
     width: 100%;
 }
+
+.gridH line {
+    stroke: grey;
+    stroke-opacity: 0.7;
+    shape-rendering: crispEdges;
+}
+
+.gridH path {
+    stroke-width: 0;
+}
+
+.gridV line {
+    stroke: lightgrey;
+    stroke-opacity: 0.7;
+    shape-rendering: crispEdges;
+}
+
+.gridV path {
+    stroke-width: 0;
+}
