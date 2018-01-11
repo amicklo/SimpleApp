@@ -10,6 +10,15 @@
             "endActual": "2018-01-01 11:10:00"
         },
         {
+            "person": "Alice",
+            "task": "Mockup",
+            "status": "Progress",
+            "startPlan": "2018-01-01 01:30:00",
+            "endPlan": "2018-01-01 2:30:00",
+            "startActual": "2018-01-01 1:30:00",
+            "endActual": "2018-01-01 2:10:00"
+        },
+        {
             "person": "Bob",
             "task": "Tests",
             "status": "Progress",
@@ -19,9 +28,18 @@
             "endActual": "2018-01-01 13:17:00"
         },
         {
+            "person": "Bob",
+            "task": "Examination",
+            "status": "Progress",
+            "startPlan": "2018-01-02 10:00:00",
+            "endPlan": "2018-01-02 13:30:00",
+            "startActual": "2018-01-02 09:30:00",
+            "endActual": "2018-01-02 13:17:00"
+        },
+        {
             "person": "Chuck",
             "task": "Splines",
-            "status": "Overdue",
+            "status": "Complete",
             "startPlan": "2018-01-01 15:30:00",
             "endPlan": "2018-01-01 17:30:00",
             "startActual": "2018-01-01 15:30:00",
@@ -39,7 +57,7 @@
         {
             "person": "Danielle",
             "task": "Slide",
-            "status": "Complete",
+            "status": "Progress",
             "startPlan": "2018-01-01 09:45:00",
             "endPlan": "2018-01-01 17:45:00",
             "startActual": "2018-01-01 10:30:00",

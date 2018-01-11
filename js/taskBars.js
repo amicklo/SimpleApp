@@ -1,20 +1,35 @@
 app.factory('taskBars', [function () {
     return {
-        //attach bars
-        addBars: function (svg, data, x, y, barOffset, labelOffset, fill, start, end) {
-
+        /*--------------------------------------------------------------------------------------------*
+         * Attach the labelled bars for the task times to the chart
+         * parameters in the order they are used:
+         * @svg         the svg element that will contain the bars (the chart so far)
+         * @data        the dataset parsed fromt the JSON
+         * @x           the x-axis scale function
+         * @y           the y axis scale function
+         * @barOffset   vertical amount to move the bar from the default calculated tow position
+         * @labelOffset vertical amount to move the label so it ends up in the center of the bar
+         * @fill        color that the bar will default to
+         * @start       the start time of bar (planned or actual)
+         * @end         the end time of bar (planned or actual)
+         * @dayStart    the first hour of the day being represented
+         * @dayEnd      the last hour of the day being represented
+         *--------------------------------------------------------------------------------------------*/
+        addBars: function (svg, data, x, y, barOffset, labelOffset, fill, start, end, dayStart, dayEnd) {
+            //list colors to be used in actual time bars depending on the status of the task
             var colorIndex = {
                 Complete: "#20AA20",
                 Progress: "#0000CC",
                 Overdue: "#DD0000"
             };
-
+            //attach a bar for each task
             svg.selectAll(".chart")
                 .append("g")
                 .attr("id", "bars")
                 .data(data)
                 .enter()
                 .append("rect")
+                .attr("id", "bar")
                 .attr("fill", function (d) {
                     if (start == "startActual") {
                         return colorIndex[d.status];
@@ -29,13 +44,24 @@ app.factory('taskBars', [function () {
                 })
                 .on("mouseover", function () {
                     d3.select(this)
-                        .attr("stroke", "yellow");
+                        .attr("stroke", "yellow")
+                        .attr("stroke-width", "2px");
                 })
                 .on("mouseout", function () {
                     d3.select(this)
                         .attr("stroke", "none");
                 })
                 .attr("height", 35)
+                .attr("width", 0)
+                .transition()
+                .duration(750)
+                .attr("width", function (d) {
+                    return (x(moment(d[end])) - x(moment(d[start])));
+                })
+            svg.selectAll("#bar")
+                .data(data)
+                .enter()
+                .transition()
                 .attr("width", function (d) {
                     return (x(moment(d[end])) - x(moment(d[start])));
                 });
@@ -47,8 +73,13 @@ app.factory('taskBars', [function () {
                 .enter()
                 .append("text")
                 .attr("fill", "white")
-                .attr("font-size", "13px")
-                .attr("font-weight", "600")
+                .attr("font-size", function (d) {
+                    if ((moment(d[start]) < moment(dayStart)) || (moment(d[end]) > moment(dayEnd))) {
+                        return "0px";
+                    }
+                    return "13px";
+                })
+                .attr("font-weight", "700")
                 .attr("y", 0)
                 .attr("transform", function (d) {
                     return "translate(" + (x(moment(d[start])) + 5) + "," + (y(d.person) + labelOffset) + ")";

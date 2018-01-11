@@ -18,8 +18,10 @@ app.directive('tasks', ['taskBars', function (taskBars, $scope) {
                     left: 150,
                 }
                 //initialize time domains
-                var timeDomainStart = d3.timeDay.offset(moment("2018-01-01 03:00:00"), +0),
-                    timeDomainEnd = d3.timeHour.offset(moment("2018-01-02 03:00:00"), +0);
+                var dayStart = "2018-01-01 03:00:00",
+                    dayEnd = "2018-01-02 03:00:00";
+                var timeDomainStart = d3.timeDay.offset(moment(dayStart), +0),
+                    timeDomainEnd = d3.timeHour.offset(moment(dayEnd), +0);
                 //create an array of individuals from the JSON
                 var people = [];
                 for (var i in data) {
@@ -91,10 +93,24 @@ app.directive('tasks', ['taskBars', function (taskBars, $scope) {
                         .tickFormat("")
                         .ticks(24)
                     );
-                //attach the bars for the planned task times
-                taskBars.addBars(svg, data, x, y, 10, 33, "#404040", "startPlan", "endPlan");
-                //attach bars for the actual task times
-                taskBars.addBars(svg, data, x, y, 65, 88, "black", "startActual", "endActual");
+                /*--------------------------------------------------------------------------------------------*
+                 * attach the labelled bars for the planned task times
+                 * parameters in the order they are used:
+                 * @svg         the svg element that will contain the bars (the chart so far)
+                 * @data        the dataset parsed fromt the JSON
+                 * @x           the x-axis scale function
+                 * @y           the y axis scale function
+                 * @barOffset   vertical amount to move the bar from the default calculated tow position
+                 * @labelOffset vertical amount to move the label so it ends up in the center of the bar
+                 * @fill color  that the bar will default to
+                 * @start the   start time of bar
+                 * @end the     time of bar
+                 * @dayStart    the first hour of the day being represented
+                 * @dayEnd      the last hour of the day being represented
+                 *--------------------------------------------------------------------------------------------*/
+                taskBars.addBars(svg, data, x, y, 10, 33, "#404040", "startPlan", "endPlan", dayStart, dayEnd);
+                // attach labelled bars for the actual task times
+                taskBars.addBars(svg, data, x, y, 65, 88, "black", "startActual", "endActual", dayStart, dayEnd);
 
             });
         }
