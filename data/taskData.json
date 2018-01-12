@@ -11,6 +11,24 @@
         },
         {
             "person": "Alice",
+            "task": "Drivers",
+            "status": "Overdue",
+            "startPlan": "2018-01-01 11:20:00",
+            "endPlan": "2018-01-01 16:00:00",
+            "startActual": "2018-01-01 11:25:00",
+            "endActual": "2018-01-01 16:55:00"
+        },
+        {
+            "person": "Alice",
+            "task": "Functions",
+            "status": "Progress",
+            "startPlan": "2018-01-01 16:15:00",
+            "endPlan": "2018-01-01 19:30:00",
+            "startActual": "2018-01-01 17:05:00",
+            "endActual": "2018-01-01 19:10:00"
+        },
+        {
+            "person": "Alice",
             "task": "Mockup",
             "status": "Progress",
             "startPlan": "2018-01-01 01:30:00",
@@ -20,17 +38,26 @@
         },
         {
             "person": "Bob",
+            "task": "Planning",
+            "status": "Complete",
+            "startPlan": "2018-01-01 07:30:00",
+            "endPlan": "2018-01-01 09:45:00",
+            "startActual": "2018-01-01 07:10:00",
+            "endActual": "2018-01-01 09:20:00"
+        },
+        {
+            "person": "Bob",
             "task": "Tests",
             "status": "Progress",
             "startPlan": "2018-01-01 10:00:00",
             "endPlan": "2018-01-01 13:30:00",
             "startActual": "2018-01-01 09:30:00",
-            "endActual": "2018-01-01 13:17:00"
+            "endActual": "2018-01-01 13:50:00"
         },
         {
             "person": "Bob",
             "task": "Examination",
-            "status": "Progress",
+            "status": "Complete",
             "startPlan": "2018-01-02 10:00:00",
             "endPlan": "2018-01-02 13:30:00",
             "startActual": "2018-01-02 09:30:00",
@@ -53,6 +80,24 @@
             "endPlan": "2018-01-01 05:30:00",
             "startActual": "2018-01-01 03:30:00",
             "endActual": "2018-01-01 6:45:00"
+        },
+        {
+            "person": "Chuck",
+            "task": "Bug Fix",
+            "status": "Complete",
+            "startPlan": "2018-01-01 06:15:00",
+            "endPlan": "2018-01-01 10:50:00",
+            "startActual": "2018-01-01 07:20:00",
+            "endActual": "2018-01-01 12:45:00"
+        },
+        {
+            "person": "Danielle",
+            "task": "Electric",
+            "status": "Complete",
+            "startPlan": "2018-01-01 06:40:00",
+            "endPlan": "2018-01-01 09:00:00",
+            "startActual": "2018-01-01 05:50:00",
+            "endActual": "2018-01-01 09:00:00"
         },
         {
             "person": "Danielle",

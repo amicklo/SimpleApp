@@ -29,16 +29,18 @@ Grid line functions from: https://bl.ocks.org/alandunning/2b5af0db18bcd0cc946295
 <body ng-app="myApp">
     <div class="header">
         <tabs></tabs>
-        <div class="btn-group btn-group" style="margin-left: 38%">
-            <button type="button" class="btn btn-info" id="comp">Complete</button>
-            <button type="button" class="btn btn-info" id="prog">In Progress</button>
-            <button type="button" class="btn btn-info" id="over">Overdue</button>
-            <button type="button" class="btn btn-info" id="all">Show All</button>
+        <br/>
+        <div style="margin-left: 38%">
+            <label class="radio-inline" id="comp"><input type="radio" name="optradio">Complete</label>
+            <label class="radio-inline" id="prog"><input type="radio" name="optradio">In Progress</label>
+            <label class="radio-inline" id="over"><input type="radio" name="optradio">Overdue</label>
+            <label class="radio-inline" id="all"><input type="radio" name="optradio">Show All</label>
         </div>
+        <br/>
         <div class="boundary"></div>
     </div>
     <tasks></tasks>
-    
+
     <!-- App -->
     <script src="js/app.js"></script>
 
@@ -48,5 +50,6 @@ Grid line functions from: https://bl.ocks.org/alandunning/2b5af0db18bcd0cc946295
     <!-- Directives -->
     <script src="js/tabs.js"></script>
     <script src="js/tasks.js"></script>
-    
+    <script src="js/taskClickHandler.js"></script>
+
 </body>

@@ -1,4 +1,4 @@
-app.factory('taskBars', [function () {
+app.factory('taskBars', ['taskClickHandler', function (taskClickHandler) {
     return {
         /*--------------------------------------------------------------------------------------------*
          * Attach the labelled bars for the task times to the chart
@@ -46,6 +46,7 @@ app.factory('taskBars', [function () {
                     }
                     return fill;
                 })
+                .attr("stroke", "black")
                 .attr("rx", 5)
                 .attr("ry", 5)
                 .attr("y", 0)
@@ -59,7 +60,8 @@ app.factory('taskBars', [function () {
                 })
                 .on("mouseout", function () {
                     d3.select(this)
-                        .attr("stroke", "none");
+                        .attr("stroke", "black")
+                        .attr("stroke-width", "1px");
                 })
                 .attr("height", 35)
                 .attr("width", 0)
@@ -93,55 +95,45 @@ app.factory('taskBars', [function () {
                 .attr("font-weight", "700")
                 .attr("y", 0)
                 .attr("transform", function (d) {
-                    return "translate(" + (x(moment(d[start])) + 5) + "," + (y(d.person) + labelOffset) + ")";
+                    return "translate(" + (x(moment(d[start])) + 10) + "," + (y(d.person) + labelOffset) + ")";
                 })
                 //.style("opacity", 0)
                 .text(function (d) {
                     return d.task;
                 });
         },
-        addButtons: function (svg, data, x) {
+        addButtons: function (svg, data) {
 
             d3.select("#comp")
                 .on("click", function () {
-                    //svg.selectAll()
+                    taskClickHandler.barDisplay(svg, data, ".plan", "Complete", false);
+                    taskClickHandler.barDisplay(svg, data, ".actual", "Complete", false);
+                    taskClickHandler.barDisplay(svg, data, ".planLabel", "Complete", false);
+                    taskClickHandler.barDisplay(svg, data, ".actualLabel", "Complete", false);
                 });
 
             d3.select("#prog")
                 .on("click", function () {
-                    //svg.selectAll()
+                    taskClickHandler.barDisplay(svg, data, ".plan", "Progress", false);
+                    taskClickHandler.barDisplay(svg, data, ".actual", "Progress", false);
+                    taskClickHandler.barDisplay(svg, data, ".planLabel", "Progress", false);
+                    taskClickHandler.barDisplay(svg, data, ".actualLabel", "Progress", false);
                 });
 
             d3.select("#over")
                 .on("click", function () {
-                    //svg.selectAll()
+                    taskClickHandler.barDisplay(svg, data, ".plan", "Overdue", false);
+                    taskClickHandler.barDisplay(svg, data, ".actual", "Overdue", false);
+                    taskClickHandler.barDisplay(svg, data, ".planLabel", "Overdue", false);
+                    taskClickHandler.barDisplay(svg, data, ".actualLabel", "Overdue", false);
                 });
 
             d3.select("#all")
                 .on("click", function () {
-                    svg.selectAll(".plan")
-                        .data(data)
-                        .transition()
-                        .duration(750)
-                        .style("opacity", 1.0);
-
-                    svg.selectAll(".actual")
-                        .data(data)
-                        .transition()
-                        .duration(750)
-                        .style("opacity", 1.0);
-
-                    svg.selectAll(".planLabel")
-                        .data(data)
-                        .transition()
-                        .duration(750)
-                        .style("opacity", 1.0);
-
-                    svg.selectAll(".actualLabel")
-                        .data(data)
-                        .transition()
-                        .duration(750)
-                        .style("opacity", 1.0);
+                    taskClickHandler.barDisplay(svg, data, ".plan", "", true);
+                    taskClickHandler.barDisplay(svg, data, ".actual", "", true);
+                    taskClickHandler.barDisplay(svg, data, ".planLabel", "", true);
+                    taskClickHandler.barDisplay(svg, data, ".actualLabel", "", true);
                 });
         }
     }

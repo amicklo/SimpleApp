@@ -1,4 +1,4 @@
-app.directive('tasks', ['taskBars', function (taskBars, $scope) {
+app.directive('tasks', ['taskBars', 'taskClickHandler', function (taskBars, taskClickHandler, $scope) {
 
     return {
         restrict: 'E',
@@ -15,7 +15,7 @@ app.directive('tasks', ['taskBars', function (taskBars, $scope) {
                     top: 20,
                     right: 40,
                     bottom: 20,
-                    left: 150,
+                    left: 220,
                 }
                 //initialize time domains
                 var dayStart = "2018-01-01 03:00:00",
@@ -24,6 +24,7 @@ app.directive('tasks', ['taskBars', function (taskBars, $scope) {
                     timeDomainEnd = d3.timeHour.offset(moment(dayEnd), +0);
                 //create an array of individuals from the JSON
                 var people = [];
+                var labels = ["Planned", "Actual"];
                 for (var i in data) {
                     if (!people.includes(data[i].person)) {
                         people.push(data[i].person);
@@ -44,6 +45,10 @@ app.directive('tasks', ['taskBars', function (taskBars, $scope) {
                 var y = d3.scaleBand()
                     .domain(people)
                     .rangeRound([0, height - margin.bottom - margin.top]);
+                //initialize planned/actual label scale
+                var l = d3.scaleBand()
+                    .domain(labels)
+                    .rangeRound([0, ((height - margin.bottom - margin.top) / people.length)]);
                 //define the chart area
                 var svg = d3.select("body")
                     .append("svg")
@@ -75,8 +80,15 @@ app.directive('tasks', ['taskBars', function (taskBars, $scope) {
                     .transition()
                     .call(xAxis);
                 var yAxis = svg.append("g")
-                    .style("font", "13px sans-serif")
+                    .style("font", "16px sans-serif")
                     .call(d3.axisLeft(y).tickSize(0));
+                //for each row, attach labels for the planned and actual times 
+                for (i in people) {
+                    svg.append("g")
+                        .attr("transform","translate(0," + (y.bandwidth() * i) + ")")
+                        .style("font", "11px monospace")
+                        .call(d3.axisLeft(l).tickSize(0));
+                }
                 //attach the grid lines
                 svg.append("g")
                     .attr("class", "gridH")
@@ -111,7 +123,7 @@ app.directive('tasks', ['taskBars', function (taskBars, $scope) {
                 taskBars.addBars(svg, data, x, y, 10, 33, "#404040", "startPlan", "endPlan", dayStart, dayEnd);
                 // attach labelled bars for the actual task times
                 taskBars.addBars(svg, data, x, y, 65, 88, "black", "startActual", "endActual", dayStart, dayEnd);
-                taskBars.addButtons(svg, data, x);
+                taskBars.addButtons(svg, data);
 
             });
         }
