@@ -29,7 +29,17 @@ app.factory('taskBars', [function () {
                 .data(data)
                 .enter()
                 .append("rect")
-                .attr("id", "bar")
+                .attr("class", function (d) {
+                    if (start == "startActual") {
+                        return "actual";
+                    }
+                    return "plan";
+                })
+                .attr("id", function (d) {
+                    return d.status;
+                })
+                .attr("start", start)
+                .attr("end", end)
                 .attr("fill", function (d) {
                     if (start == "startActual") {
                         return colorIndex[d.status];
@@ -53,18 +63,13 @@ app.factory('taskBars', [function () {
                 })
                 .attr("height", 35)
                 .attr("width", 0)
+                //.style("opacity", 0)
                 .transition()
                 .duration(750)
                 .attr("width", function (d) {
                     return (x(moment(d[end])) - x(moment(d[start])));
-                })
-            svg.selectAll("#bar")
-                .data(data)
-                .enter()
-                .transition()
-                .attr("width", function (d) {
-                    return (x(moment(d[end])) - x(moment(d[start])));
                 });
+
             //attach labels to the bars
             svg.selectAll(".chart")
                 .append("g")
@@ -72,6 +77,12 @@ app.factory('taskBars', [function () {
                 .data(data)
                 .enter()
                 .append("text")
+                .attr("class", function (d) {
+                    if (start == "startActual") {
+                        return "actualLabel";
+                    }
+                    return "planLabel";
+                })
                 .attr("fill", "white")
                 .attr("font-size", function (d) {
                     if ((moment(d[start]) < moment(dayStart)) || (moment(d[end]) > moment(dayEnd))) {
@@ -84,8 +95,53 @@ app.factory('taskBars', [function () {
                 .attr("transform", function (d) {
                     return "translate(" + (x(moment(d[start])) + 5) + "," + (y(d.person) + labelOffset) + ")";
                 })
+                //.style("opacity", 0)
                 .text(function (d) {
                     return d.task;
+                });
+        },
+        addButtons: function (svg, data, x) {
+
+            d3.select("#comp")
+                .on("click", function () {
+                    //svg.selectAll()
+                });
+
+            d3.select("#prog")
+                .on("click", function () {
+                    //svg.selectAll()
+                });
+
+            d3.select("#over")
+                .on("click", function () {
+                    //svg.selectAll()
+                });
+
+            d3.select("#all")
+                .on("click", function () {
+                    svg.selectAll(".plan")
+                        .data(data)
+                        .transition()
+                        .duration(750)
+                        .style("opacity", 1.0);
+
+                    svg.selectAll(".actual")
+                        .data(data)
+                        .transition()
+                        .duration(750)
+                        .style("opacity", 1.0);
+
+                    svg.selectAll(".planLabel")
+                        .data(data)
+                        .transition()
+                        .duration(750)
+                        .style("opacity", 1.0);
+
+                    svg.selectAll(".actualLabel")
+                        .data(data)
+                        .transition()
+                        .duration(750)
+                        .style("opacity", 1.0);
                 });
         }
     }

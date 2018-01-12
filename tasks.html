@@ -29,7 +29,12 @@ Grid line functions from: https://bl.ocks.org/alandunning/2b5af0db18bcd0cc946295
 <body ng-app="myApp">
     <div class="header">
         <tabs></tabs>
-        <!--button type="button" class="btn btn-info" id="inc">Increase Day</button-->
+        <div class="btn-group btn-group" style="margin-left: 38%">
+            <button type="button" class="btn btn-info" id="comp">Complete</button>
+            <button type="button" class="btn btn-info" id="prog">In Progress</button>
+            <button type="button" class="btn btn-info" id="over">Overdue</button>
+            <button type="button" class="btn btn-info" id="all">Show All</button>
+        </div>
         <div class="boundary"></div>
     </div>
     <tasks></tasks>

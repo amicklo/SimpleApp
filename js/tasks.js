@@ -111,6 +111,7 @@ app.directive('tasks', ['taskBars', function (taskBars, $scope) {
                 taskBars.addBars(svg, data, x, y, 10, 33, "#404040", "startPlan", "endPlan", dayStart, dayEnd);
                 // attach labelled bars for the actual task times
                 taskBars.addBars(svg, data, x, y, 65, 88, "black", "startActual", "endActual", dayStart, dayEnd);
+                taskBars.addButtons(svg, data, x);
 
             });
         }
